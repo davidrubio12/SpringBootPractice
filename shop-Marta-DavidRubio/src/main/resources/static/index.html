@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardmarket Clone</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+          integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet"> -->
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap");
+
+
+        body {
+            font-family: "Poppins", sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1a1a1a;
+            color: white;
+        }
+
+        header {
+            background-color: #1d2740;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+
+        header input {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            margin-left: 5px;
+        }
+
+        header button {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        header button:first-of-type {
+            background-color: #337ab7;
+            color: white;
+        }
+
+        header button:last-of-type {
+            background-color: #5cb85c;
+            color: white;
+        }
+
+        header a {
+            color: white;
+            text-decoration: underline;
+            font-size: 14px;
+        }
+
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .logo-img {
+            height: 30px;
+            width: auto;
+            border-radius: 5px;
+        }
+
+        .h2 {
+
+            font-size: 30px;
+            margin-bottom: 10px;
+            padding: 0.5em;
+
+        }
+
+        .banner {
+            background-color: #343456;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            height: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .banner-images {
+            margin: -1px 0 0 -3px;
+            width: 70%;
+            height: 450px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .banner-images img {
+            width: 16%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 2px solid rgb(255, 255, 255, 0.6);
+            transition: all ease-in-out 0.5s;
+        }
+
+        /*
+        #imagen1 {
+            width: 100%;
+            height: auto;
+
+        } */
+
+
+
+        .banner-images img:hover {
+
+            width: 109%;
+
+
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .products {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .product-card {
+            background-color: #292929;
+            padding: 10px;
+            border-radius: 4px;
+            width: calc(33.333% - 20px);
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .product-card img {
+            max-width: 100%;
+            border-radius: 4px;
+        }
+
+        .product-card h3 {
+            font-size: 14px;
+            margin: 10px 0;
+        }
+
+        .product-card p {
+            font-size: 12px;
+            margin: 5px 0;
+        }
+
+        .product-card .price {
+            font-weight: bold;
+            color: #80cfa6;
+        }
+
+        .table-section {
+            margin-top: 20px;
+        }
+
+        .table-section table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .table-section th,
+        .table-section td {
+            border: 1px solid #444;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .table-section th {
+            background-color: #333;
+        }
+
+        .table-section td {
+            background-color: #292929;
+        }
+
+        .table-section td.price {
+            color: #80cfa6;
+            font-weight: bold;
+        }
+
+        .btn {
+            position: relative;
+            width: 155px;
+            height: 50px;
+            margin: 20px;
+        }
+
+        .btn a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.051);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            border-top: 1px solid rgba(250, 52, 52, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 10;
+            color: #fff;
+            border-radius: 30px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-decoration: none;
+            transition: 0.5s;
+            overflow: hidden;
+            backdrop-filter: blur(15px);
+        }
+
+        .btn:hover a {
+            letter-spacing: 3px;
+        }
+
+        .btn:before {
+            content: "";
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--clr-glow);
+            bottom: -5px;
+            width: 30px;
+            height: 10px;
+            border-radius: 10px;
+            transition: 0.5s;
+        }
+
+        .btn:hover::before {
+            bottom: 0px;
+            height: 50%;
+            width: 80%;
+            border-radius: 30px;
+        }
+
+        .btn:after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--clr-glow);
+            top: -5px;
+            width: 30px;
+            height: 10px;
+            border-radius: 10px;
+            transition: 0.5s;
+        }
+
+        .btn:hover::after {
+            top: 0px;
+            height: 50%;
+            width: 80%;
+            border-radius: 30px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .logo-img {
+            height: 45px;
+            width: auto;
+            border-radius: 5px;
+        }
+
+        /* Controles del encabezado (inputs y botones) */
+        .header-controls {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-right: 10px;
+        }
+
+        .input-field {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            background-color: #1d2740;
+            color: white;
+        }
+
+        .input-field::placeholder {
+            color: #ccc;
+        }
+
+        .forgot-password {
+            color: white;
+            font-size: 14px;
+            text-decoration: underline;
+        }
+
+        .footer {
+            display: flex;
+            justify-content: flex-end;
+            padding: 1%;
+        }
+
+        ul {
+            width: 300px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        li {
+            list-style: none;
+            display: inline-block;
+            font-size: 23px;
+            border-radius: 50%;
+            height: 55px;
+            width: 55px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .instagram {
+            border: 2px solid #ff0095;
+            color: #c72b7e;
+        }
+
+        .twitter {
+            border: 2px solid #1c9ff1;
+            color: #1c9ff1;
+        }
+
+        .youtube {
+            border: 2px solid #ff0000;
+            color: #ff0000;
+        }
+
+        .facebook {
+            border: 2px solid #0679e6;
+            color: #0679e6;
+        }
+
+
+        /* #####################  Hover EFFECTS ############################# */
+
+        .icon {
+            transition: 0.6s;
+        }
+
+        li:hover .icon1 {
+            transform: rotateY(360deg);
+            text-shadow: 0px 0px 1px #ff0095;
+        }
+
+        li:hover .icon2 {
+            transform: rotateY(360deg);
+            text-shadow: 0px 0px 1px #1c9ff1;
+        }
+
+        li:hover .icon3 {
+            transform: rotateY(360deg);
+            text-shadow: 0px 0px 1px #ff0000;
+        }
+
+        li:hover .icon4 {
+            transform: rotateY(360deg);
+            text-shadow: 0px 0px 1px #0679e6;
+        }
+
+        li {
+            transition: 0.4s;
+            transition-delay: 0.2s;
+        }
+
+        .instagram:hover {
+            box-shadow: 0px 0px 7px #ff0095 inset,
+            0px 0px 7px #ff0095;
+        }
+
+        .twitter:hover {
+            box-shadow: 0px 0px 7px #1c9ff1 inset,
+            0px 0px 7px #1c9ff1;
+        }
+
+        .youtube:hover {
+            box-shadow: 0px 0px 7px #ff0000 inset,
+            0px 0px 7px #ff0000;
+        }
+
+        .facebook:hover {
+            box-shadow: 0px 0px 7px #0679e6 inset,
+            0px 0px 7px #0679e6;
+        }
+
+
+        /* ------------------------------------------ */
+        /* .login__box-input {
+            position: relative;
+        } */
+
+        /* .login__label {
+            position: absolute;
+            left: 0;
+            top: 13px;
+            font-weight: 500;
+            transition: top 0.3s, font-size 0.3s;
+        } */
+
+        /* .login__eye {
+            position: absolute;
+            right: 0;
+            top: 18px;
+            z-index: 10;
+            cursor: pointer;
+        } */
+
+        /* .login__box:nth-child(2) input {
+            padding-right: 1.8rem;
+        } */
+
+
+        /* @media screen and (min-width: 576px) {
+            .login {
+                justify-content: center;
+            }
+
+            .container {
+                width: 400px;
+                padding: 4rem 3rem 3.5rem;
+                border-radius: 1.5rem;
+            }
+
+            .login__title {
+                font-size: 2rem;
+            }
+
+        } */
+
+        /* Menú hamburguesa */
+
+        /* Menú hamburguesa */
+        .hamburger {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .hamburger div {
+            width: 30px;
+            height: 4px;
+            background-color: white;
+            border-radius: 5px;
+        }
+
+        /* Menú de navegación */
+        nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* Estilos del checkbox oculto */
+        #menu-toggle {
+            display: none;
+        }
+
+        /* Menú desplegable */
+        .menu {
+            display: none;
+            position: absolute;
+            top: 76px;
+            right: 16px;
+            background-color: #1d2740;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .menu a {
+            display: block;
+            margin: 10px 0;
+        }
+
+        /* Mostrar el menú cuando el checkbox está marcado */
+        #menu-toggle:checked+.menu {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+<header>
+    <div class="logo">
+        <img src="logo2.webp" alt="Logo" class="logo-img">
+        Magic Emporium
+    </div>
+
+
+    <!-- <input type="text" placeholder="Nombre de usuario" class="input-field"> -->
+    <div class="login__box-input">
+        <input type="email" required class="login__input" id="login-email" placeholder=" Usuario">
+        <label for="login-email" class="login__label"></label>
+    </div>
+    <div class="login__box">
+        <i class="ri-lock-2-line login__icon"></i>
+
+        <div class="login__box-input">
+            <input type="password" required class="login__input" id="login-pass" placeholder="Contraseña ">
+            <label for="login-pass" class="login__label"></label>
+            <i class="ri-eye-off-line login__eye" id="login-eye"></i>
+        </div>
+    </div>
+    <div class="forgotPassword">
+        <a href="#" class="login__forgot">¿Olvidaste la contraseña?</a>
+    </div>
+
+
+
+
+    <!-- <input type="password" placeholder="Contraseña" class="input-field">
+        <a href="#" class="forgot-password">¿Olvidado?</a> -->
+    <div class="btn" style="--clr: #78fd61; --clr-glow: #78fd61">
+        <a href="#">Iniciar Sesión</a>
+    </div>
+    <div class="btn" style="--clr: #2dd9fe; --clr-glow: #00a3d5">
+        <a href="#">Registrarse</a>
+    </div>
+    </div>
+    <!-- <nav>
+        <a href="#">Productos</a>
+        <a href="#">Tendencias</a>
+    </nav> -->
+    <!-- Menú hamburguesa en la esquina derecha -->
+    <label for="menu-toggle" class="hamburger">
+        <div></div>
+        <div></div>
+        <div></div>
+    </label>
+
+    <!-- Checkbox oculto que controla el menú -->
+    <input type="checkbox" id="menu-toggle">
+
+    <!-- Menú desplegable que aparece al activar el checkbox -->
+    <div class="menu">
+        <a href="#">Productos</a>
+        <a href="#">Tendencias</a>
+        <a href="#">Ofertas</a>
+        <a href="#">Contacto</a>
+    </div>
+</header>
+<h2 class="h2">Novedades</h2>
+<div class="banner">
+    <!-- <button class="arrow left" onclick="prevSlide()">&#8249;</button> -->
+
+    <div class="banner-images" id="bannerImages">
+
+        <img id="imagen1" src="\imagenes/cartas/en_DdpdxvMety_m.png">
+        <img src="imagenes/cartas/en_E6IpLbwHs9_m.png">
+        <img src="imagenes/cartas/en_U3tTioTyQQ_m.png">
+        <img src="imagenes/cartas/en_WdfHNEajVK_m.png">
+        <img src="imagenes/cartas/images.jpeg">
+        <img src="imagenes/cartas/Forest302__75200.jpg">
+        <img src="imagenes/cartas/D_643151-MLA78375526523_082024-O.jpg">
+
+
+    </div>
+    <!-- <button class="arrow right" onclick="nextSlide()">&#8250;</button> -->
+</div>
+
+<div class="content">
+    <div class="section">
+        <h2>Best Sellers</h2>
+        <div class="products">
+            <div class="product-card">
+                <img src="imagenes/cartas/796545.jpg" alt="Swiftfoot Boots">
+                <h3>Swiftfoot Boots</h3>
+                <p class="price">0,08 €</p>
+            </div>
+            <div class="product-card">
+                <img src="imagenes/cartas/797055.jpg" alt="Blasphemous Act">
+                <h3>Blasphemous Act</h3>
+                <p class="price">5,79 €</p>
+            </div>
+            <div class="product-card">
+                <img src="imagenes/cartas/bolware.jpg" alt="Browbeat">
+                <h3>Browbeat</h3>
+                <p class="price">0,97 €</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Las Mejores Gangas</h2>
+        <div class="products">
+            <div class="product-card">
+                <img src="imagenes/cartas/269545.jpg" alt="Oloro">
+                <h3>Altar de Brood</h3>
+                <p class="price">4,49 €</p>
+            </div>
+            <div class="product-card">
+                <img src="imagenes/cartas/797055.jpg" alt="Shalai">
+                <h3>Blasting station</h3>
+                <p class="price">0,70 €</p>
+            </div>
+            <div class="product-card">
+                <img src="imagenes/cartas/21729.jpg" alt="Copperline Gorge">
+                <h3>Ob Nixilis, the Fallen</h3>
+                <p class="price">1,00 €</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-section">
+        <h2>More Deals</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Card Name</th>
+                <th>Price</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>4</td>
+                <td>Rondador garabateador</td>
+                <td class="price">1,50 €</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>Autoridad de los cónsules</td>
+                <td class="price">0,60 €</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>Arena pirexiana</td>
+                <td class="price">0,18 €</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>Estandarte de la hermandad</td>
+                <td class="price">0,55 €</td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>Ejemplar de la luz</td>
+                <td class="price">0,55 €</td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td>Una oferta que no podrás rechazar</td>
+                <td class="price">0,05 €</td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td>Hidra musgoénita</td>
+                <td class="price">0,71 €</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<footer class="footer">
+    <ul>
+        <li class="instagram"><i class="fa-brands fa-instagram icon1 icon"></i></li>
+        <li class="twitter"><i class="fa-brands fa-twitter icon2 icon"></i></li>
+        <li class="youtube"><i class="fa-brands fa-youtube icon3 icon"></i></li>
+        <li class="facebook"><i class="fa-brands fa-facebook icon4 icon"></i></li>
+    </ul>
+
+</footer>
+</body>
+<script>
+    // Función para mostrar u ocultar el menú cuando se hace clic en el ícono de hamburguesa
+    function toggleMenu() {
+        const menu = document.getElementById('menu');
+        const hamburger = document.getElementById('hamburger');
+        menu.classList.toggle('show');
+        hamburger.classList.toggle('open');
+    }
+</script>
+
+</html>
