@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -583,13 +583,13 @@
 
     <!-- Menú desplegable que aparece al activar el checkbox -->
     <div class="menu">
-        <a href="#">Productos</a>
+        <a href="shop">Productos</a>
         <a href="#">Tendencias</a>
         <a href="#">Ofertas</a>
         <a href="#">Contacto</a>
     </div>
 </header>
-<h2 class="h2">Cartas</h2>
+<h2 class="h2">Sobres</h2>
 <div class="banner">
     <!-- <button class="arrow left" onclick="prevSlide()">&#8249;</button> -->
 
@@ -610,10 +610,13 @@
 
 <div class="content">
     <div class="section">
-        <h2>Best Sellers</h2>
+        <h2>Cartas Sueltas</h2>
+
         <div class="products">
+
             <div class="product-card">
-                <img src="images/imagenNoDisponible.png" alt="Swiftfoot Boots">
+
+
                 <h3>Swiftfoot Boots</h3>
                 <p class="price">0,08 €</p>
             </div>
@@ -631,7 +634,7 @@
     </div>
 
     <div class="section">
-        <h2>Las Mejores Gangas</h2>
+
         <div class="products">
             <div class="product-card">
                 <img src="images/269545.jpg" alt="Oloro">
@@ -652,15 +655,15 @@
     </div>
 
     <div class="table-section">
-        <h2>More Deals</h2>
+        <h2>Accesorios</h2>
         <table>
-            <thead>
-            <tr>
-                <th>#</th>
-                <th>Card Name</th>
-                <th>Price</th>
-            </tr>
-            </thead>
+<!--            <thead>-->
+<!--            <tr>-->
+<!--                <th>#</th>-->
+<!--                <th>Card Name</th>-->
+<!--                <th>Price</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
             <tbody>
             <tr>
                 <td>4</td>
@@ -710,6 +713,7 @@
     </ul>
 
 </footer>
+<p th:each="category:${categories}" th:text="${category.getName()}"></p>
 </body>
 <script>
     // Función para mostrar u ocultar el menú cuando se hace clic en el ícono de hamburguesa
