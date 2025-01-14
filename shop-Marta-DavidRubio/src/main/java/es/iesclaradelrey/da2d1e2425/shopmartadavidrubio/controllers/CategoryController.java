@@ -10,12 +10,12 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.Collection;
 
 @Controller
-@RequestMapping("/shop")
-public class ShopController {
+@RequestMapping({"", "/"})
+public class CategoryController {
 
     private final CategoryService categoryService;
 
-    public ShopController(CategoryService categoryService) {
+    public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
     }
 
@@ -23,7 +23,7 @@ public class ShopController {
     public ModelAndView getAllCategories() {
         Collection<Category> categories = categoryService.findAll();
         System.out.println(categories);
-        return new ModelAndView("home", "categories", categories);
+        return new ModelAndView("test", "categories", categories);
     }
 
 

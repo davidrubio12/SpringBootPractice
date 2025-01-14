@@ -1,6 +1,8 @@
 package es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.controllers;
 
+import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.entities.Category;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.entities.Product;
+import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.services.CategoryService;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.services.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,16 +16,22 @@ import java.util.Collection;
 @RequestMapping("/product")
 public class ProductController {
     private final ProductService productService;
+    private final CategoryService categoryService;
 
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService, CategoryService categoryService) {
         this.productService = productService;
+        this.categoryService = categoryService;
     }
-
+// Duda
     @GetMapping("/category/{categoryId}")
     public ModelAndView productsByCategory(@PathVariable("categoryId") Long id) {
+        ModelAndView mav = new ModelAndView("products");
+
+        Category category = categoryService.findById(id).orElseThrow();
+        mav.addObject("category", category);
         Collection<Product> products = productService.findByCategoryId(id);
-        System.out.println(products);
-        return new ModelAndView("products", "products", products);
+        mav.addObject("product", products);
+        return mav;
     }
 
 

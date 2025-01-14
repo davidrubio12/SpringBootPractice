@@ -1,7 +1,11 @@
 package es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.repositories.generic;
 
+import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.entities.Category;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.entities.Product;
-import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.repositories.base.Repository;
+import org.springframework.data.repository.ListCrudRepository;
 
-public interface ProductRepository extends Repository<Product, Long> {
+import java.util.Collection;
+
+public interface ProductRepository extends ListCrudRepository<Product, Long> {
+    Collection<Product> findByCategoryId(Long id);
 }

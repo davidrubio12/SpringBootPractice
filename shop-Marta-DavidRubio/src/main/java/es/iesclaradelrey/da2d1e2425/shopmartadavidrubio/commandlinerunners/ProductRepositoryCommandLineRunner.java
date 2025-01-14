@@ -15,10 +15,14 @@ public class ProductRepositoryCommandLineRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        productRepository.save(new Product(11L,"Path of Exile","Descipción",null,1L,null));
-        productRepository.save(new Product(12L,"Path of Kyado","Descipción",null,1L,null));
-        productRepository.save(new Product(13L,"Path of Maqui","Descipción",null,1L,null));
-        productRepository.save(new Product(14L,"Path of live","Descipción",null,1L,null));
+       // productRepository.save(new Product(11L,"Path of Exile","Descipción",null,1L,"/images/478.jpg"));
+        //productRepository.save(new Product(12L,"Path of Kyado","Descipción",null,1L,null));
+   //     productRepository.save(new Product(13L,"Path of Maqui","Descipción",null,1L,null));
+     //   productRepository.save(new Product(14L,"Path of live","Descipción",null,1L,null));
+     //   productRepository.save(new Product(15L,"Cimientos","Descipción",null,2L,null));
+     //   productRepository.save(new Product(16L,"Arcane","Descipción",null,2L,null));
+
+
 
     }
 }

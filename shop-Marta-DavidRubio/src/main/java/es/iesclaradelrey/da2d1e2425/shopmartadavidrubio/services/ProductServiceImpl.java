@@ -38,12 +38,14 @@ public class ProductServiceImpl implements ProductService {
        return productRepository.findById(id);
     }
 
+
+
     @Override
     public Collection<Product> findByCategoryId(long id) {
-        return productRepository
-                .findAll()
-                .stream()
-                .filter(product -> product.getCategoryId() == id)
-                .toList();
+//         return productRepository.findAll()
+//            .stream()
+//             .filter(product -> product.getCategory().getId() == id)
+//           .toList();
+        return productRepository.findByCategoryId(id);
     }
 }

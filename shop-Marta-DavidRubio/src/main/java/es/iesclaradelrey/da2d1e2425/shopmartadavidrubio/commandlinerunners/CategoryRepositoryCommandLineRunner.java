@@ -19,9 +19,9 @@ public class CategoryRepositoryCommandLineRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
 
-        categoryRepository.save(new Category(1L,"Cartas sueltas","Descripción","/images/478.jpg"));
-        categoryRepository.save(new Category(2L,"Sobres","Descripción","/images/sobres.jpeg"));
-        categoryRepository.save(new Category( 3L,"Accesorios","Descripción","/images/accesorios.png"));
+    //    categoryRepository.save(new Category(1L,"Cartas sueltas","Descripción","/images/478.jpg"));
+      //  categoryRepository.save(new Category(2L,"Sobres","Descripción","/images/sobres.jpeg"));
+        //categoryRepository.save(new Category( 3L,"Accesorios","Descripción","/images/accesorios.png"));
 
 
     }

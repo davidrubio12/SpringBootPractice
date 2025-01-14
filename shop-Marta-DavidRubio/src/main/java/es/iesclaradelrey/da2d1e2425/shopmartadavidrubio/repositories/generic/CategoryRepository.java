@@ -1,9 +1,9 @@
 package es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.repositories.generic;
 
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.entities.Category;
-import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.repositories.base.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 
-public interface CategoryRepository extends Repository<Category, Long> {
+public interface CategoryRepository extends JpaRepository<Category, Long> {
 
 }

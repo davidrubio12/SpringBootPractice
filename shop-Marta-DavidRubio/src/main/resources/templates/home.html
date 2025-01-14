@@ -424,51 +424,6 @@
         }
 
 
-        /* ------------------------------------------ */
-        /* .login__box-input {
-            position: relative;
-        } */
-
-        /* .login__label {
-            position: absolute;
-            left: 0;
-            top: 13px;
-            font-weight: 500;
-            transition: top 0.3s, font-size 0.3s;
-        } */
-
-        /* .login__eye {
-            position: absolute;
-            right: 0;
-            top: 18px;
-            z-index: 10;
-            cursor: pointer;
-        } */
-
-        /* .login__box:nth-child(2) input {
-            padding-right: 1.8rem;
-        } */
-
-
-        /* @media screen and (min-width: 576px) {
-            .login {
-                justify-content: center;
-            }
-
-            .container {
-                width: 400px;
-                padding: 4rem 3rem 3.5rem;
-                border-radius: 1.5rem;
-            }
-
-            .login__title {
-                font-size: 2rem;
-            }
-
-        } */
-
-        /* Menú hamburguesa */
-
         /* Menú hamburguesa */
         .hamburger {
             display: flex;
@@ -599,16 +554,14 @@
         <div class="products">
 
 
-            <a th:href="|/product/category/${category.getId()}|" th:each ="category : ${categories}" class="product-card">
-                <img th:src="${category.getImageUrl()}  ? ${category.getImageUrl()} : '/images/imagenNoDisponible.png'" src="" th:alt="${category.getName()}" alt="Blasphemous Act">
-                <h3 th:text="${category.getName()}">Blasphemous Act</h3>
-                <p th:text="${category.getDescription()}" class="price">5,79 €</p>
+            <a th:href="@{|/product/category/${category.getId()}|}" th:each ="category : ${categories}" class="product-card">
+<!--                Poner los url a las imagenes-->
+                <img th:src="${category.getImageUrl()}  ? ${category.getImageUrl()} : '/images/imagenNoDisponible.png'" src=""
+                     th:alt="${category.getName()}" alt="Blasphemous Act">
+<!--                <h3 th:text="${category.getName()}">Blasphemous Act</h3>-->
+                <p th:text="${category.getDescription()}" class="description">Descripción del producto</p>
             </a>
-<!--            <div class="product-card">-->
-<!--                <img src="images/bolware.jpg" alt="Browbeat">-->
-<!--                <h3>Browbeat</h3>-->
-<!--                <p class="price">0,97 €</p>-->
-<!--            </div>-->
+
         </div>
     </div>
 
@@ -617,6 +570,7 @@
 </div>
 <footer class="footer">
     <ul>
+<!--        Prueba: poner las rrss como enlaces y con el @ (a href="@{/}">)-->
         <li class="instagram"><i class="fa-brands fa-instagram icon1 icon"></i></li>
         <li class="twitter"><i class="fa-brands fa-twitter icon2 icon"></i></li>
         <li class="youtube"><i class="fa-brands fa-youtube icon3 icon"></i></li>
@@ -624,7 +578,8 @@
     </ul>
 
 </footer>
-<p th:each="category:${categories}" th:text="${category.getName()}"></p>
+<!--Nos muestra los nombres de las categorias-->
+<!--<p th:each="category:${categories}" th:text="${category.getName()}"></p>-->
 </body>
 <script>
     // Función para mostrar u ocultar el menú cuando se hace clic en el ícono de hamburguesa
