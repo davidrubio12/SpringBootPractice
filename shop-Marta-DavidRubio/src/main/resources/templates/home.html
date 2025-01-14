@@ -556,9 +556,16 @@
 
             <a th:href="@{|/product/category/${category.getId()}|}" th:each ="category : ${categories}" class="product-card">
 <!--                Poner los url a las imagenes-->
-                <img th:src="${category.getImageUrl()}  ? ${category.getImageUrl()} : '/images/imagenNoDisponible.png'" src=""
-                     th:alt="${category.getName()}" alt="Blasphemous Act">
-<!--                <h3 th:text="${category.getName()}">Blasphemous Act</h3>-->
+                <!-- Si category.getImageUrl() no es null, mostramos la imagen correspondiente -->
+                <img th:if="${category.getImageUrl() != null}" th:src="@{${category.getImageUrl()}}"
+                     th:alt="${category.getName()}" alt="NameCategory" />
+
+                <!-- Si category.getImageUrl() es null, mostramos la imagen por defecto -->
+                <img th:if="${category.getImageUrl() == null}" th:src="@{/images/imagenNoDisponible.png}"
+                     th:alt="${category.getName()}" alt="NameCategory" />
+
+
+                <!--                <h3 th:text="${category.getName()}">Blasphemous Act</h3>-->
                 <p th:text="${category.getDescription()}" class="description">Descripción del producto</p>
             </a>
 

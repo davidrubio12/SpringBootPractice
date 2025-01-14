@@ -175,7 +175,8 @@
 
         .product-card .price {
             font-weight: bold;
-            color: #80cfa6;
+            color: white;
+        /*color  precio*/
         }
 
         .table-section {
@@ -555,11 +556,19 @@
         <div class="products">
 
 
-            <a th:each ="category : ${products}" th:href="@{/product/{id}(id=${product.id})}"  class="product-card">
-                <img th:src="${category.getImageUrl()}  ? ${category.getImageUrl()} : '/images/imagenNoDisponible.png'" src="" th:alt="${category.getName()}" alt="Blasphemous Act">
-                <h3 th:text="${category.getName()}">Blasphemous Act</h3>
-                <p th:text="${category.getDescription()}" class="description">Descripción de la Categoría</p>
-                <p class="price" th:text="${category.price} + ' €'">0,00 €</p>
+
+
+            <a th:each ="product : ${products}" th:href="@{/product/{id}(id=${product.id})}"  class="product-card">
+
+                <img th:if="${product.getImageUrl() != null}" th:src="@{${product.getImageUrl()}}"
+                     th:alt="${product.getName()}" alt="NameCategory" />
+
+                <!-- Si category.getImageUrl() es null, mostramos la imagen por defecto -->
+                <img th:if="${product.getImageUrl() == null}" th:src="@{/images/imagenNoDisponible.png}"
+                     th:alt="${product.getName()}" alt="NameCategory" />
+
+                <p th:text="${product.getDescription()}" class="description">Descripción de la Categoría</p>
+                <p class="price" th:text="${product.price} + ' €'">Price</p>
             </a>
 
         </div>

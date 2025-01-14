@@ -30,7 +30,7 @@ public class ProductController {
         Category category = categoryService.findById(id).orElseThrow();
         mav.addObject("category", category);
         Collection<Product> products = productService.findByCategoryId(id);
-        mav.addObject("product", products);
+        mav.addObject("products", products);
         return mav;
     }
 

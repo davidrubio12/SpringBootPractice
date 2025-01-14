@@ -23,7 +23,7 @@ public class CategoryController {
     public ModelAndView getAllCategories() {
         Collection<Category> categories = categoryService.findAll();
         System.out.println(categories);
-        return new ModelAndView("test", "categories", categories);
+        return new ModelAndView("home", "categories", categories);
     }
 
 
