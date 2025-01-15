@@ -22,7 +22,7 @@ public class ProductController {
         this.productService = productService;
         this.categoryService = categoryService;
     }
-// Duda
+
     @GetMapping("/category/{categoryId}")
     public ModelAndView productsByCategory(@PathVariable("categoryId") Long id) {
         ModelAndView mav = new ModelAndView("products");
@@ -33,6 +33,16 @@ public class ProductController {
         mav.addObject("products", products);
         return mav;
     }
+    @GetMapping("/{productId}")
+
+    public ModelAndView productDetails(@PathVariable("productId") Long id){
+        ModelAndView mav = new ModelAndView("productDetails");
+        Product products = productService.findById(id).orElseThrow();
+        mav.addObject("product", products);
+
+        return mav;
+    }
+
 
 
 

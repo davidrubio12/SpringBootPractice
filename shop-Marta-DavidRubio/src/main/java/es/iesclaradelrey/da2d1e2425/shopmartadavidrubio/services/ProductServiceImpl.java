@@ -5,9 +5,7 @@ import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.repositories.generic.Pro
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -48,4 +46,7 @@ public class ProductServiceImpl implements ProductService {
 //           .toList();
         return productRepository.findByCategoryId(id);
     }
+
+
+
 }
