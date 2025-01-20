@@ -3,6 +3,8 @@ package es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -29,6 +31,8 @@ public class Product {
     private Category category;
 
 
-
+    // Relación con Rating
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Rating> ratings;
 
 }

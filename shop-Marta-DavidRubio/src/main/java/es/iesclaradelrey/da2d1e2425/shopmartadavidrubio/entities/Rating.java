@@ -15,6 +15,14 @@ import java.util.Date;
 @NoArgsConstructor
 
 @Entity
+@Table(
+        name = "ratings",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"user_id", "product_id"}) // Restringe una valoración por usuario y producto
+        }
+
+
+)
 public class Rating {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,4 +45,8 @@ public class Rating {
     protected void onCreate() {
         this.date = new Date(); // Inicializa la fecha automáticamente
     }
+    @ManyToOne
+    @JoinColumn(name = "product_id", nullable = false)
+    private Product product;
+
 }
