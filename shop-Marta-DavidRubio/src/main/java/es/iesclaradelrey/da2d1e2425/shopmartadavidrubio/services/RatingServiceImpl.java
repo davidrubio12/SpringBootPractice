@@ -5,7 +5,7 @@ import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.repositories.generic.Rat
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-
+import java.util.Optional;
 @Service
 public class RatingServiceImpl implements RatingService {
     private final RatingRepository ratingRepository;
@@ -14,9 +14,8 @@ public class RatingServiceImpl implements RatingService {
         this.ratingRepository = ratingRepository;
     }
 
-
     @Override
-    public Collection<Product> findRatingById(Long id) {
+    public Optional<Double> findRatingById(Long id) {
         return ratingRepository.findRatingById(id);
-    }}
-
+    }
+}

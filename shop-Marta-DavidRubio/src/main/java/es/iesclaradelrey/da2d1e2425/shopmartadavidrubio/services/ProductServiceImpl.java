@@ -15,20 +15,7 @@ public class ProductServiceImpl implements ProductService {
         this.productRepository = productRepository;
     }
 
-    @Override
-    public void save(Product product) {
-    productRepository.save(product);
-    }
 
-    @Override
-    public void deleteProduct(Product product) {
-    productRepository.deleteById(product.getId());
-    }
-
-    @Override
-    public Collection<Product> findAll() {
-    return productRepository.findAll();
-    }
 
     @Override
     public Optional<Product> findById(long id) {

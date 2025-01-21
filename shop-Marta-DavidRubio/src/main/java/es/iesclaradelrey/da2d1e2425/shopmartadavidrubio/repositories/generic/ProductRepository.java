@@ -9,5 +9,5 @@ import java.util.Collection;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
     Collection<Product> findByCategoryId(Long id);
-    Collection<Product> findProductById(Long id);
+
 }

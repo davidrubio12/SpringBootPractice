@@ -14,15 +14,7 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryServiceImpl(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
     }
-    @Override
-    public long count() {
-        return categoryRepository.count();
-    }
 
-    @Override
-    public void save(Category category) {
-        categoryRepository.save(category);
-    }
 
     @Override
     public Collection<Category> findAll() {
@@ -35,9 +27,5 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryRepository.findById(id);
     }
 
-    @Override
-    public void deleteById(Category category) {
-        categoryRepository.deleteById(category.getId());
 
-    }
 }
