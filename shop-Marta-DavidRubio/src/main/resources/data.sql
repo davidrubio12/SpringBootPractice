@@ -20,12 +20,11 @@ VALUES ('Black Lotus', 'One of the most powerful cards in Magic, grants three ma
        ('Sol Ring', 'Tap to add two colorless mana.', 2.00,'' , 1);
 
 
-
--- Inserción de ratings
-INSERT INTO rating (id, name, comentary, rating_number, image_url, date, product_id) VALUES
-                                                                                         (1, 'John Doe', 'Amazing product, exceeded expectations!', 4.8, 'https://example.com/image1.jpg', CURRENT_TIMESTAMP, 1),
-                                                                                         (2, 'Jane Smith', 'Good quality, but a bit expensive.', 4.0, 'https://example.com/image2.jpg', CURRENT_TIMESTAMP, 1),
-                                                                                         (3, 'Alice Brown', 'Battery life could be better.', 3.5, 'https://example.com/image3.jpg', CURRENT_TIMESTAMP, 2),
-                                                                                         (4, 'Bob White', 'Excellent value for the price!', 5.0, 'https://example.com/image4.jpg', CURRENT_TIMESTAMP, 2),
-                                                                                         (5, 'Charlie Black', 'Not as described, disappointed.', 2.0, 'https://example.com/image5.jpg', CURRENT_TIMESTAMP, 1);
+INSERT INTO rating (name, comentary, rating_number, image_url, date, product_id)
+VALUES
+    ('John Doe', 'Amazing product, exceeded expectations!', 4.5, 'https://example.com/image1.jpg', CURRENT_TIMESTAMP, 1),
+    ('Jane Smith', 'Good quality, but a bit expensive.', 4.0, 'https://example.com/image2.jpg', CURRENT_TIMESTAMP, 1),
+    ('Alice Brown', 'Battery life could be better.', 3.5, 'https://example.com/image3.jpg', CURRENT_TIMESTAMP, 2),
+    ('Bob White', 'Excellent value for the price!', 5.0, 'https://example.com/image4.jpg', CURRENT_TIMESTAMP, 3),
+    ('Charlie Black', 'Not as described, disappointed.', 2.0, 'https://example.com/image5.jpg', CURRENT_TIMESTAMP, 1);
 

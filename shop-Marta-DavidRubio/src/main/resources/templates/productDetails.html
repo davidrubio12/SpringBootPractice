@@ -155,7 +155,7 @@
         }
 
         .products {
-            display: flex;
+
             flex-wrap: wrap;
             gap: 20px;
             justify-content: center;
@@ -515,6 +515,24 @@
         h2{
             text-decoration: underline;
         }
+        .star-rating {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .stars .fa {
+            font-size: 24px;
+            color: #d3d3d3; /* Color de estrellas vacías */
+        }
+
+        .stars .full-star {
+            color: #ffc107; /* Color de estrellas completas */
+        }
+
+        .stars .half-star {
+            color: #ffc107; /* Color de medias estrellas */
+        }
 
     </style>
 </head>
@@ -603,6 +621,28 @@
 
 
 
+            <div class="average-rating">
+                <h3>Promedio de valoraciones</h3>
+                <div class="stars">
+                    <!-- Estrellas llenas -->
+                    <span th:each="i : ${#numbers.sequence(1, T(java.lang.Math).floor(averageRating))}">
+                <i class="fa fa-star" style="color: gold;"></i>
+            </span>
+
+                    <!-- Estrella media (si aplica) -->
+                    <span th:if="(averageRating * 10) % 10 >= 5">
+                <i class="fa fa-star-half-o" style="color: gold;"></i>
+            </span>
+
+                    <!-- Estrellas vacías -->
+                    <span th:each="i : ${#numbers.sequence(1, 5 - T(java.lang.Math).ceil(averageRating))}">
+                <i class="fa fa-star-o" style="color: gray;"></i>
+            </span>
+                </div>
+                <p th:text="'Promedio: ' + ${averageRating} + ' / 5'"></p>
+            </div>
+
+
         </div>
         <div class="productsDetails">
             <h2>Precio del producto</h2>
@@ -612,6 +652,29 @@
 
 
         </div>
+
+
+        <div class="rating">
+            <h2>Valoraciones de los usuarios</h2>
+            <div th:each="rating : ${ratings}" class="rating">
+                <h5 th:text="${rating.name}">John Doe</h5>
+                <p th:text="${rating.comentary}">Comentario del producto</p>
+                <div class="stars">
+                    <!-- Bucle para mostrar estrellas completas -->
+                    <span th:each="i : ${#numbers.sequence(1, T(java.lang.Math).floor(rating.ratingNumber))}">
+                <i class="fa fa-star full-star"></i>
+            </span>
+                    <!-- Mostrar media estrella si existe -->
+                    <span th:if="${rating.ratingNumber % 1.0 >= 0.5}">
+                <i class="fa fa-star-half-alt half-star"></i>
+            </span>
+
+                </div>
+            </div>
+        </div>
+
+
+
 
 
     </div>

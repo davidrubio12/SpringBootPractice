@@ -2,6 +2,7 @@ package es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.controllers;
 
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.entities.Category;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.entities.Product;
+import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.entities.Rating;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.services.CategoryService;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.services.ProductService;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.services.RatingService;
@@ -47,6 +48,13 @@ public class ProductController {
         Optional <Double> rating = ratingService.findRatingById(id);
 
         mav.addObject("rating", rating);
+
+        Double averageRating = rating.orElse(0.0); // Devuelve 0.0 si no hay valoraciones
+        mav.addObject("averageRating", averageRating);
+
+
+        Collection<Rating> ratings = ratingService.findAllRatings(id);
+        mav.addObject("ratings", ratings);
 
         return mav;
     }

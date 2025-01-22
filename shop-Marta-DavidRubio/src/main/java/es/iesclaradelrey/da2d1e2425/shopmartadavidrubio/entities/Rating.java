@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
+
 import java.util.Date;
 
 @Getter
@@ -15,14 +15,12 @@ import java.util.Date;
 @NoArgsConstructor
 
 @Entity
-@Table(
-        name = "ratings",
-        uniqueConstraints = {
-                @UniqueConstraint(columnNames = {"user_id", "product_id"}) // Restringe una valoración por usuario y producto
-        }
-
-
-)
+//@Table(
+//        name = "rating",
+//        uniqueConstraints = {
+//                @UniqueConstraint(columnNames = {"user_id", "product_id"}) // Restringe una valoración por usuario y producto
+//        }
+//)
 public class Rating {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,10 +28,13 @@ public class Rating {
 
     @Column(nullable = false, length = 100)
     private String name;
+
     @Column(nullable = false, length = 1000)
     private String comentary;
+
     @Column( length = 5 )
     private Double ratingNumber;
+
     @Column(nullable = false, length = 1000)
     private String imageUrl;
 
@@ -49,4 +50,8 @@ public class Rating {
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
+
+    public boolean isValidRatingNumber() {
+        return ratingNumber != null && (ratingNumber * 10) % 5 == 0;
+    }
 }
