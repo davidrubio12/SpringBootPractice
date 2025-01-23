@@ -14,4 +14,6 @@ public interface RatingRepository extends JpaRepository<Rating, Long>
     Optional<Double> findRatingById(@Param("id") Long id);
 
    Collection<Rating> findByProductId(Long id);
+
+   Collection<Rating>findByProductIdOrderByDateDesc(Long id);
 }

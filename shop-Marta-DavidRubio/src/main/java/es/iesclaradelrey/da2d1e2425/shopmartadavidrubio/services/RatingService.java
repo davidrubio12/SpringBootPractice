@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface RatingService {
     Collection<Rating> findAllRatings(Long id);
     Optional<Double> findRatingById(Long id);
+    Collection<Rating>findAllRatingsByProductIdOrderByDateDesc(Long id);
 }

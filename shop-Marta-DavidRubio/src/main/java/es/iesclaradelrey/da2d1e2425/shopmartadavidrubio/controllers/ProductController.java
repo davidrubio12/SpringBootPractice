@@ -52,8 +52,11 @@ public class ProductController {
         Double averageRating = rating.orElse(0.0); // Devuelve 0.0 si no hay valoraciones
         mav.addObject("averageRating", averageRating);
 
+        boolean hasHalfStar = (int) (averageRating * 10) % 10 >= 5;
+        mav.addObject("hasHalfStar", hasHalfStar);
 
-        Collection<Rating> ratings = ratingService.findAllRatings(id);
+
+        Collection<Rating> ratings = ratingService.findAllRatingsByProductIdOrderByDateDesc(id);
         mav.addObject("ratings", ratings);
 
         return mav;

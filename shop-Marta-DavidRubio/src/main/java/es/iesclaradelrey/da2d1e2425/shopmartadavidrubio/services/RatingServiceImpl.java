@@ -27,5 +27,10 @@ public class RatingServiceImpl implements RatingService {
         return ratingRepository.findRatingById(id);
     }
 
+    @Override
+    public Collection<Rating> findAllRatingsByProductIdOrderByDateDesc(Long id) {
+        return ratingRepository.findByProductIdOrderByDateDesc(id);
+    }
+
 
 }

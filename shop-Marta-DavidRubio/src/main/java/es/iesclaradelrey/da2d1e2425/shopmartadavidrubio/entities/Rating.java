@@ -15,12 +15,11 @@ import java.util.Date;
 @NoArgsConstructor
 
 @Entity
-//@Table(
-//        name = "rating",
-//        uniqueConstraints = {
-//                @UniqueConstraint(columnNames = {"user_id", "product_id"}) // Restringe una valoración por usuario y producto
-//        }
-//)
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"name","product_id"}) // Restringe una valoración por usuario y producto
+        }
+)
 public class Rating {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
