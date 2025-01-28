@@ -28,3 +28,5 @@ VALUES
     ('Bob White', 'Excellent value for the price!', 5.0, 'https://example.com/image4.jpg', CURRENT_TIMESTAMP, 3),
     ('Charlie Black', 'Not as described, disappointed.', 2.0, 'https://example.com/image5.jpg', '2025-07-01 20:54:15', 1);
 
+
+

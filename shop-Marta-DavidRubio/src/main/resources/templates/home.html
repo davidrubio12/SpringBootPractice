@@ -14,7 +14,7 @@
 </head>
 
 <body>
-<div th:replace="fragments/header :: header"></div>
+<div th:replace="~{fragments/header :: header}"></div>
 
 <div class="content">
     <div class="section">
@@ -46,7 +46,7 @@
 
 </div>
 
-<div th:replace="fragments/footer :: footer"></div>
+<div th:replace="~{/fragments/footer :: footer}"></div>
 </body>
 <script>
     // Función para mostrar u ocultar el menú cuando se hace clic en el ícono de hamburguesa

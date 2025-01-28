@@ -35,6 +35,12 @@
     <div class="btn" style="--clr: #2dd9fe; --clr-glow: #00a3d5">
         <a href="#">Registrarse</a>
     </div>
+    <div class="container d-flex align-items-center justify-content-between">
+        <a th:href="@{/cart/showCart}" class="btn btn-outline-light cart-button d-flex align-items-center">
+            <i class="bi bi-cart cart-icon"></i>
+            <span class="ms-2">Carrito</span>
+        </a>
+    </div>
 
     <label for="menu-toggle" class="hamburger">
         <div></div>
