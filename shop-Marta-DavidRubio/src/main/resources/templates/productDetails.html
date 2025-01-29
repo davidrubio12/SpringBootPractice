@@ -7,8 +7,8 @@
     <title>Cardmarket Clone</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
           integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-          crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
     <link rel="stylesheet" th:href="@{/styles/productDetails.css}">
 </head>
 
@@ -17,7 +17,7 @@
 
 
 <div class="content">
-    <h1 th:text = "${product.getName()}">Detalles de Producto</h1>
+    <h1 th:text="${product.getName()}">Detalles de Producto</h1>
     <div class="section">
 
         <!-- Titulo dinámico con thymeleaf-->
@@ -26,37 +26,35 @@
         <div class="products">
 
 
-
-
-            <p th:each ="product : ${product}" th:href="@{/product/{id}(id=${product.id})}"  class="product-card">
+            <p th:each="product : ${product}" th:href="@{/product/{id}(id=${product.id})}" class="product-card">
 
                 <img th:if="${product.getImageUrl() != null}" th:src="@{${product.getImageUrl()}}"
-                 alt="imagen del producto"/>
+                     alt="imagen del producto"/>
 
                 <!-- Si category.getImageUrl() es null, mostramos la imagen por defecto -->
-                <img th:if="${product.getImageUrl() == ''}" th:src="@{/static/imagenNoDisponible.png}" alt="imagen del producto"/>
+                <img th:if="${product.getImageUrl() == ''}" th:src="@{/static/imagenNoDisponible.png}"
+                     alt="imagen del producto"/>
 
 
-
-            <div class="average-rating">
+            <div th:if="${averageRating.isPresent()}" class="average-rating">
                 <h3>Promedio de valoraciones</h3>
                 <div class="stars">
                     <!-- Estrellas llenas -->
                     <span th:each="i : ${#numbers.sequence(1, T(java.lang.Math).floor(averageRating))}">
-                <i class="full-star" ></i>
-            </span>
-
+                            <i class="full-star"></i>
+                        </span>
                     <!-- Estrella media (si aplica) -->
                     <span th:if="${hasHalfStar}">
-                <i class="half-star" ></i>
-            </span>
+                            <i class="half-star"></i>
+                        </span>
 
 
-
-            </span>
                 </div>
                 <p th:text="'Promedio: ' + ${averageRating} + ' / 5'"></p>
             </div>
+            <div th:if="${averageRating.isEmpty()}" class="average-rating">
+                <p>No hay valoraciones</p>
+                </div>
 
 
         </div>
@@ -66,48 +64,44 @@
             <h2>Descripción del producto </h2>
             <p th:text="${product.getDescription()}" class="description">Descripción del producto</p>
 
-                <a th:href='@{/cart/add_cart/{productId}(productId = ${product.id})}' id="addToCartButton" class="btn btn-primary">
-                    <i class="bi bi-cart-plus"></i> Añadir al carro </a>
-
-            </div>
+            <a th:href='@{/cart/add_cart/{productId}(productId=${product.id}, returnUrl=${currentUrl})}'
+               id="addToCartButton" class="btn btn-primary">Añadir al carrito</a>
 
 
         </div>
-
-
-        <div class="rating">
-            <h2>Valoraciones de los usuarios</h2>
-            <p th:if="${averageRating == 0}">
-                Este producto aún no tiene valoraciones.
-            </p>
-            <div th:each="rating : ${ratings}" class="rating">
-                <h5 th:text="${rating.name}">John Doe</h5>
-                <p th:text="${rating.comentary}">Comentario del producto</p>
-                <p>Fecha de publicación: <span th:text="${#dates.format(rating.date, 'yyyy-MM-dd')}"></span></p>
-                <div class="stars">
-                    <!-- Bucle para mostrar estrellas completas -->
-                    <span th:each="i : ${#numbers.sequence(1, T(java.lang.Math).floor(rating.ratingNumber))}">
-                <i class="full-star"></i>
-            </span>
-                    <!-- Mostrar media estrella si existe -->
-                    <span th:if="${rating.ratingNumber % 1.0 >= 0.5}">
-                <i class="half-star"></i>
-            </span>
-
-                </div>
-            </div>
-
-        </div>
-
-
-
 
 
     </div>
 
 
+    <div class="rating">
+        <h2>Valoraciones de los usuarios</h2>
+        <p th:if="${averageRating == 0}">
+            Este producto aún no tiene valoraciones.
+        </p>
+        <div th:each="rating : ${ratings}" class="rating">
+            <h5 th:text="${rating.name}">John Doe</h5>
+            <p th:text="${rating.comentary}">Comentario del producto</p>
+            <p>Fecha de publicación: <span th:text="${#dates.format(rating.date, 'yyyy-MM-dd')}"></span></p>
+            <div class="stars">
+                <!-- Bucle para mostrar estrellas completas -->
+                <span th:each="i : ${#numbers.sequence(1, T(java.lang.Math).floor(rating.ratingNumber))}">
+                <i class="full-star"></i>
+            </span>
+                <!-- Mostrar media estrella si existe -->
+                <span th:if="${rating.ratingNumber % 1.0 >= 0.5}">
+                <i class="half-star"></i>
+            </span>
+
+            </div>
+        </div>
+
+    </div>
+
 
 </div>
+
+
 <div th:replace="~{/fragments/footer :: footer}"></div>
 
 

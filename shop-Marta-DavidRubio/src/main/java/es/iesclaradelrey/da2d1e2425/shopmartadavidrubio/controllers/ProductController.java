@@ -17,7 +17,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/product")
-public class ProductController {
+public class ProductController extends BaseController {
     private final ProductService productService;
     private final CategoryService categoryService;
     private final RatingService ratingService;
@@ -47,12 +47,16 @@ public class ProductController {
 
         Optional <Double> rating = ratingService.findRatingById(id);
 
-        mav.addObject("rating", rating);
+        mav.addObject("averageRating", rating);
 
-        Double averageRating = rating.orElse(0.0); // Devuelve 0.0 si no hay valoraciones
-        mav.addObject("averageRating", averageRating);
+//        Double averageRating = rating.orElse(0.0); // Devuelve 0.0 si no hay valoraciones
+//        mav.addObject("averageRating", averageRating);
+        boolean hasHalfStar = false;
+        if (rating.isPresent()) {
+            Double averageRating = rating.get();
+            hasHalfStar = (int) (averageRating * 10) % 10 >= 5;
 
-        boolean hasHalfStar = (int) (averageRating * 10) % 10 >= 5;
+        }
         mav.addObject("hasHalfStar", hasHalfStar);
 
 

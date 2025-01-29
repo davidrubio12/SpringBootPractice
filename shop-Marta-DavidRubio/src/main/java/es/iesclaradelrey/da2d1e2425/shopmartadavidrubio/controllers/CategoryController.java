@@ -11,7 +11,7 @@ import java.util.Collection;
 
 @Controller
 @RequestMapping({"", "/"})
-public class CategoryController {
+public class CategoryController extends BaseController {
 
     private final CategoryService categoryService;
 

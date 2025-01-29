@@ -52,4 +52,24 @@ public class CartServiceImpl implements CartService {
             cartRepository.save(cart1);
         }
     }
+
+    @Override
+    public Double countCart() {
+        double total = 0.0;
+    for (Cart cart : cartRepository.findAll()) {
+        total += cart.getProduct().getPrice() * cart.getQuantity();
+    }
+        return total;
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        cartRepository.deleteById(id);
+    }
+
+    @Override
+    public void deleteAll() {
+        cartRepository.deleteAll();
+    }
+
 }

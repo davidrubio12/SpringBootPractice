@@ -1,18 +1,15 @@
 package es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.controllers;
-import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.entities.Cart;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.services.CartService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Collection;
 
 @Controller
 @RequestMapping("/cart")
-public class CartController {
+public class CartController extends BaseController {
 
     private final CartService cartService;
 
@@ -22,35 +19,37 @@ public class CartController {
         this.cartService = cartService;
 
     }
+
+
     @GetMapping("/showCart")
     public ModelAndView showCart() {
         ModelAndView mav = new ModelAndView("cart");
 
         mav.addObject("cartDetails", cartService.findAll());
+        mav.addObject("total", cartService.countCart());
         return mav;
     }
-    @GetMapping("add_cart/{productId}")
-    public String addCart(@ModelAttribute(name = "productId") @PathVariable("productId") Long productId) {
-
-       String url = "javascript:history.back();";
+    @GetMapping("/add_cart/{productId}")
+    public String addCart(@ModelAttribute(name = "productId") @PathVariable("productId") Long productId,@RequestParam String returnUrl) {
+        System.out.println("Añadiendo producto " + productId);
         cartService.add(productId);
-        return "redirect:" + url;
+        return "redirect:" + returnUrl;
     }
+    @GetMapping("/delete/{id}")
+    public String deleteCart(@ModelAttribute(name = "id") @PathVariable("id") Long id,@RequestParam String returnUrl) {
 
-    public ModelAndView totalCart(){
-        ModelAndView mav = new ModelAndView("cart");
-        Collection<Cart> products = cartService.findAll();
+        cartService.deleteById(id);
 
-        Double total = 0.0;
-
-        for (Object product : products) {
-            total += (Double) product;
-
-        }
-        mav.addObject("cartDetails", total);
-
+        ;
+        return "redirect:" + returnUrl;
     }
 
 
+
+@GetMapping("/deleteAll")
+public String deleteAllCarts() {
+
+    cartService.deleteAll();
+    return "redirect:/cart/showCart"; }
 
 }
