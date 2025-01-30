@@ -40,21 +40,19 @@
                 <h3>Promedio de valoraciones</h3>
                 <div class="stars">
                     <!-- Estrellas llenas -->
-                    <span th:each="i : ${#numbers.sequence(1, T(java.lang.Math).floor(averageRating))}">
+                    <span th:each="i : ${#numbers.sequence(1, T(java.lang.Math).floor(averageRating.get()))}">
                             <i class="full-star"></i>
                         </span>
                     <!-- Estrella media (si aplica) -->
                     <span th:if="${hasHalfStar}">
                             <i class="half-star"></i>
                         </span>
-
-
                 </div>
-                <p th:text="'Promedio: ' + ${averageRating} + ' / 5'"></p>
+                <p th:text="'Promedio: ' + ${averageRating.get()} + ' / 5'"></p>
             </div>
             <div th:if="${averageRating.isEmpty()}" class="average-rating">
                 <p>No hay valoraciones</p>
-                </div>
+            </div>
 
 
         </div>
@@ -76,13 +74,13 @@
 
     <div class="rating">
         <h2>Valoraciones de los usuarios</h2>
-        <p th:if="${averageRating == 0}">
+        <p th:if="${averageRating.isEmpty()}">
             Este producto aún no tiene valoraciones.
         </p>
-        <div th:each="rating : ${ratings}" class="rating">
-            <h5 th:text="${rating.name}">John Doe</h5>
-            <p th:text="${rating.comentary}">Comentario del producto</p>
-            <p>Fecha de publicación: <span th:text="${#dates.format(rating.date, 'yyyy-MM-dd')}"></span></p>
+        <div th:if="${!ratings.isEmpty()}" th:each="rating : ${ratings}" class="rating">
+            <div th:text="${rating.name}">John Doe</div>
+            <div th:text="${rating.comentary}">Comentario del producto</div>
+            <div>Fecha de publicación: <span th:text="${#dates.format(rating.date, 'yyyy-MM-dd')}"></span></div>
             <div class="stars">
                 <!-- Bucle para mostrar estrellas completas -->
                 <span th:each="i : ${#numbers.sequence(1, T(java.lang.Math).floor(rating.ratingNumber))}">
@@ -91,7 +89,7 @@
                 <!-- Mostrar media estrella si existe -->
                 <span th:if="${rating.ratingNumber % 1.0 >= 0.5}">
                 <i class="half-star"></i>
-            </span>
+                </span>
 
             </div>
         </div>

@@ -1,6 +1,5 @@
 package es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.controllers;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.services.CartService;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -31,7 +30,6 @@ public class CartController extends BaseController {
     }
     @GetMapping("/add_cart/{productId}")
     public String addCart(@ModelAttribute(name = "productId") @PathVariable("productId") Long productId,@RequestParam String returnUrl) {
-        System.out.println("Añadiendo producto " + productId);
         cartService.add(productId);
         return "redirect:" + returnUrl;
     }
