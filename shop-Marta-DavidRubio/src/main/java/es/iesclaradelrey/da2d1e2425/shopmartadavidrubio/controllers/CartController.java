@@ -31,7 +31,7 @@ public class CartController extends BaseController {
     @GetMapping("/add_cart/{productId}")
     public String addCart(@ModelAttribute(name = "productId") @PathVariable("productId") Long productId,@RequestParam String returnUrl) {
         cartService.add(productId);
-        return "redirect:" + returnUrl;
+        return "forward:" + returnUrl;
     }
     @GetMapping("/delete/{id}")
     public String deleteCart(@ModelAttribute(name = "id") @PathVariable("id") Long id,@RequestParam String returnUrl) {
@@ -39,7 +39,7 @@ public class CartController extends BaseController {
         cartService.deleteById(id);
 
         ;
-        return "redirect:" + returnUrl;
+        return "forward:" + returnUrl;
     }
 
 
@@ -48,6 +48,6 @@ public class CartController extends BaseController {
 public String deleteAllCarts() {
 
     cartService.deleteAll();
-    return "redirect:/cart/showCart"; }
+    return "forward:/cart/showCart"; }
 
 }
