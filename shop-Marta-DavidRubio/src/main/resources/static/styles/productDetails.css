@@ -225,6 +225,14 @@ header a {
     height: 50px;
     margin: 20px;
 }
+#liveToastBtn{
+    position: relative;
+    width: 200px;
+    height: 60px;
+    margin: 20px;
+    background-color: #3c7ddf;
+    color: white;
+}
 
 .btn a {
     display: flex;
@@ -561,4 +569,30 @@ h2{
 .btn-add:active {
     background-color: #3073c3;
     transform: scale(0.95);
+}
+
+.toast{
+    display: none;
+
+}
+/**********************************************************/
+.toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgba(97, 142, 227, 0.8);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s, visibility 0.5s, transform 0.5s;
+    transform: translateY(20px);
+}
+
+.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
 }
