@@ -68,6 +68,11 @@ header a {
     width: auto;
     border-radius: 5px;
 }
+.carrito-img{
+    height: 30px;
+    width: auto;
+    border-radius: 5px;
+}
 
 .h2 {
 
@@ -527,3 +532,33 @@ h2{
 }
 
 
+/*Boton*/
+
+.btn {
+    display: inline-block;
+    height: 30px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.btn-add {
+    background-color: #3073c3;
+    color: white;
+}
+
+.btn-add:hover {
+    background-color: #3073c3;
+    transform: scale(1.05);
+}
+
+.btn-add:active {
+    background-color: #3073c3;
+    transform: scale(0.95);
+}

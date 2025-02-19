@@ -34,8 +34,6 @@
                 <img th:if="${category.getImageUrl() == null}" th:src="@{/static/imagenNoDisponible.png}"
                      th:alt="${category.getName()}" alt="NameCategory" />
 
-
-                <!--                <h3 th:text="${category.getName()}">Blasphemous Act</h3>-->
                 <p th:text="${category.getDescription()}" class="description">Descripción del producto</p>
             </a>
 
@@ -48,14 +46,6 @@
 
 <div th:replace="~{/fragments/footer :: footer}"></div>
 </body>
-<script>
-    // Función para mostrar u ocultar el menú cuando se hace clic en el ícono de hamburguesa
-    function toggleMenu() {
-        const menu = document.getElementById('menu');
-        const hamburger = document.getElementById('hamburger');
-        menu.classList.toggle('show');
-        hamburger.classList.toggle('open');
-    }
-</script>
+
 
 </html>

@@ -30,11 +30,11 @@
             <a th:each ="product : ${products}" th:href="@{/product/{id}(id=${product.id})}"  class="product-card">
 
                 <img th:if="${product.getImageUrl() != null}" th:src="@{${product.getImageUrl()}}"
-                      />
+                     alt="imagenDelproducto" />
 
                 <!-- Si category.getImageUrl() es null, mostramos la imagen por defecto -->
-                <img th:if="${product.getImageUrl() == ''}" th:src="@{/static/imagenNoDisponible.png}"
-                    />
+                <img th:if="${product.getImageUrl() == null}" th:src="@{/images/imagenNoDisponible.png}"
+                     alt="imagen por defecto"/>
 
                 <p th:text="${product.getName()}" class="name">NombreCarta</p>
                 <p class="price" th:text="${product.price} + ' €'">Price</p>
@@ -50,14 +50,6 @@
 
 
 </body>
-<script>
-    // Función para mostrar u ocultar el menú cuando se hace clic en el ícono de hamburguesa
-    function toggleMenu() {
-        const menu = document.getElementById('menu');
-        const hamburger = document.getElementById('hamburger');
-        menu.classList.toggle('show');
-        hamburger.classList.toggle('open');
-    }
-</script>
+
 
 </html>

@@ -32,8 +32,8 @@
                      alt="imagen del producto"/>
 
                 <!-- Si category.getImageUrl() es null, mostramos la imagen por defecto -->
-                <img th:if="${product.getImageUrl() == ''}" th:src="@{/static/imagenNoDisponible.png}"
-                     alt="imagen del producto"/>
+                <img th:if="${product.getImageUrl() == null}" th:src="@{/images/imagenNoDisponible.png}"
+                     alt="imagen por defecto"/>
 
 
             <div th:if="${averageRating.isPresent()}" class="average-rating">
@@ -48,27 +48,23 @@
                             <i class="half-star"></i>
                         </span>
                 </div>
-                <p th:text="'Promedio: ' + ${averageRating.get()} + ' / 5'"></p>
+                <div th:text="'Promedio: ' + ${averageRating.get()} + ' / 5'"></div>
             </div>
             <div th:if="${averageRating.isEmpty()}" class="average-rating">
-                <p>No hay valoraciones</p>
+                <div>No hay valoraciones</div>
             </div>
-
-
         </div>
+
         <div class="productsDetails">
             <h2>Precio del producto</h2>
-            <p class="price" th:text="${product.price} + ' €'">Price</p>
+            <div class="price" th:text="${product.price} + ' €'">Price</div>
             <h2>Descripción del producto </h2>
-            <p th:text="${product.getDescription()}" class="description">Descripción del producto</p>
+            <div th:text="${product.getDescription()}" class="description">Descripción del producto</div>
 
-            <a th:href='@{/cart/add_cart/{productId}(productId=${product.id}, returnUrl=${currentUrl})}'
-               id="addToCartButton" class="btn btn-primary">Añadir al carrito</a>
-
-
+            <button type="button" th:data-product-id="${product.getId()}" class="btn btn-add add-to-cart" onclick="addToCart(this)">Añadir
+                al carrito
+            </button>
         </div>
-
-
     </div>
 
 
@@ -102,16 +98,7 @@
 
 <div th:replace="~{/fragments/footer :: footer}"></div>
 
-
 </body>
-<script>
-    // Función para mostrar u ocultar el menú cuando se hace clic en el ícono de hamburguesa
-    function toggleMenu() {
-        const menu = document.getElementById('menu');
-        const hamburger = document.getElementById('hamburger');
-        menu.classList.toggle('show');
-        hamburger.classList.toggle('open');
-    }
-</script>
+
 
 </html>

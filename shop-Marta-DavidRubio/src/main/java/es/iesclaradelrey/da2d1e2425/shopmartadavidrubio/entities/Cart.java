@@ -32,7 +32,18 @@ public class Cart {
     @Column(nullable = false, length = 1000)
     private String imageUrl;
 
+
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
+
+    public Cart(int quantity, Product product) {
+        this.quantity = quantity;
+        this.product = product;
+        this.date = LocalDateTime.now();
+        this.modified = LocalDateTime.now();
+        this.productName = product.getName();
+        this.price = product.getPrice();
+        this.imageUrl = product.getImageUrl();
+    }
 }

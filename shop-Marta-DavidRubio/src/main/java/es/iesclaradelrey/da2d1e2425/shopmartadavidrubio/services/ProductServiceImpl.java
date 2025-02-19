@@ -1,7 +1,7 @@
 package es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.services;
 
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.entities.Product;
-import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.repositories.generic.ProductRepository;
+import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;

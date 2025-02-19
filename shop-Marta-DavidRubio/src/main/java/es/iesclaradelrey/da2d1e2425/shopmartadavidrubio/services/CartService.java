@@ -7,7 +7,7 @@ public interface CartService {
 
     Collection<Cart> findAll();
 
-    void add(Long id);
+    void add(Long id, int quantity);
 
     Double countCart();
 

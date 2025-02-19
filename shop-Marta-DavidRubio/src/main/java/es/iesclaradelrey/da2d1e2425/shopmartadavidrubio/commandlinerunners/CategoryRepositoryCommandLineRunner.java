@@ -1,7 +1,6 @@
 package es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.commandlinerunners;
 
-import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.entities.Category;
-import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.repositories.generic.CategoryRepository;
+import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.repositories.CategoryRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 

@@ -65,6 +65,11 @@ header a {
     width: auto;
     border-radius: 5px;
 }
+.carrito-img{
+    height: 30px;
+    width: auto;
+    border-radius: 5px;
+}
 
 .h2 {
 
@@ -145,6 +150,8 @@ header a {
     width: calc(33.333% - 20px);
     box-sizing: border-box;
     text-align: center;
+    color: white;
+    text-decoration: none;
 }
 
 .product-card img {

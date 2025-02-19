@@ -24,8 +24,10 @@ public class Product {
     private String description;
     @Column(nullable = false, length = 10)
     private Double price;
-    @Column(nullable = false, length = 1000)
+    @Column( length = 1000)
     private String imageUrl;
+    @Column(nullable = false, length = 100)
+    private Integer stockQuantity;
 
     @ManyToOne
     @JoinColumn(name= "category_id",nullable = false)
