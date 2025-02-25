@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="~{fragments/fragments :: head('Formulario añadir nuevo producto')}">
+  <title>Formulario simple</title>
+</head>
+<body>
+<div class="container">
+  <header th:replace="~{fragments/fragments :: header('Formulario añadir nuevo producto')}"></header>
+  <div class="container">
+    <form th:method="post" th:object="${product}">
+      <div class="mb-3">
+        <label for="name" class="form-label">Nombre de Producto: </label>
+        <input type="text" class="form-control" id="name" th:field="*{name}">
+      </div>
+      <div class="mb-3">
+        <label for="description" class="form-label">Descripción del producto: </label>
+        <input type="texArea" rows="50" cols="100" class="form-control" id="description" th:field="*{description}">
+      </div>
+      <div class="mb-3">
+        <label for="price" class="form-label">Apellidos</label>
+        <input type="number" class="form-control" id="price" th:field="*{price}">
+      </div>
+      <div class="mb-3">
+        <label for="stockQuantity" class="form-label">Cantidad de stock del producto: </label>
+        <input type="number" class="form-control" id="stockQuantity" th:field="*{stockQuantity}">
+      </div>
+      <div class="mb-3">
+        <fieldset class="form-group">
+          //seguir modificando cuando este el controlador
+          <div class="form-check" th:each="category : ${categories}">
+            <input class="form-check-input" type="checkbox" id="category" th:id="|category-${category.getId()}|" th:field="*{category.getId()}" th:value="${category.getId()}">
+            <label class="form-check-label" for="category" th:for="|category-${category.getId()}|" th:text="${category.getName()}">Categoría</label>
+          </div>
+        </fieldset>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Enviar el formulario</button>
+    </form>
+  </div>
+
+</div>
+
+
+
+</body>
+</html>
