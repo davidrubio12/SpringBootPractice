@@ -1,11 +1,28 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="https://www.thymeleaf.org">
-<head th:replace="~{fragments/fragments :: head('Formulario añadir nuevo producto')}">
-  <title>Formulario simple</title>
+<head>
+<!-- th:replace="~{fragments/fragments :: head('Formulario añadir nuevo producto')}"-->
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+          crossorigin="anonymous"></script>
+
+  <title>Añadir Nuevo Producto</title>
 </head>
 <body>
+<h1  style="
+    font-size: 36px;
+    color:black;
+    font-weight: bold;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);"> Formulario para añadir nuevo producto</h1>
 <div class="container">
-  <header th:replace="~{fragments/fragments :: header('Formulario añadir nuevo producto')}"></header>
   <div class="container">
     <form th:method="post" th:object="${product}">
       <div class="mb-3">
@@ -14,10 +31,10 @@
       </div>
       <div class="mb-3">
         <label for="description" class="form-label">Descripción del producto: </label>
-        <input type="texArea" rows="50" cols="100" class="form-control" id="description" th:field="*{description}">
+        <textarea rows="5" cols="5" class="form-control" id="description" th:field="*{description}"></textarea>
       </div>
       <div class="mb-3">
-        <label for="price" class="form-label">Apellidos</label>
+        <label for="price" class="form-label">Precio</label>
         <input type="number" class="form-control" id="price" th:field="*{price}">
       </div>
       <div class="mb-3">
@@ -26,9 +43,9 @@
       </div>
       <div class="mb-3">
         <fieldset class="form-group">
-          //seguir modificando cuando este el controlador
+
           <div class="form-check" th:each="category : ${categories}">
-            <input class="form-check-input" type="checkbox" id="category" th:id="|category-${category.getId()}|" th:field="*{category.getId()}" th:value="${category.getId()}">
+            <input class="form-check-input" type="radio" id="category" th:id="|category-${category.getId()}|" th:field="*{categoryId}" th:value="${category.getId()}">
             <label class="form-check-label" for="category" th:for="|category-${category.getId()}|" th:text="${category.getName()}">Categoría</label>
           </div>
         </fieldset>

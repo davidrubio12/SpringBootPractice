@@ -5,6 +5,7 @@ import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.entities.Category;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.entities.Product;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.repositories.CategoryRepository;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.repositories.ProductRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -41,14 +42,19 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void ProductDtoToProuct(NewProductDto newProductDto) {
+    public void create(NewProductDto newProductDto) {
         Product product = new Product();
 
         product.setName(newProductDto.getName());
-        product.setDescription(newProductDto.getDescripcion());
+        product.setDescription(newProductDto.getDescription());
         product.setPrice(newProductDto.getPrice());
         product.setStockQuantity(newProductDto.getStockQuantity());
-        product.setCategory(categoryRepository.getReferenceById(newProductDto.getCategoryId()));
+
+//        product.setCategory(categoryRepository.getReferenceById(newProductDto.getCategoryId()));
+
+        Category category=categoryRepository.findById(newProductDto.getCategoryId()).orElseThrow(EntityNotFoundException::new);
+        product.setCategory(category);
+
         productRepository.save(product);
     }
 

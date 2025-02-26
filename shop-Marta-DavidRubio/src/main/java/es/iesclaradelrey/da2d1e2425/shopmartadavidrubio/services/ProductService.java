@@ -11,7 +11,7 @@ public interface ProductService {
     Optional<Product> findById(long id);
     Collection<Product> findByCategoryId(long id);
 
-    void ProductDtoToProuct(NewProductDto newProductDto);
+    void create(NewProductDto newProductDto);
 
 
 }
