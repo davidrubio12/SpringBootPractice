@@ -4,12 +4,16 @@ import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.dto.NewProductDto;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.entities.Product;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.services.CategoryService;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.services.ProductService;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/forms")
@@ -23,16 +27,27 @@ public class FormNewProductController {
     }
 
     @GetMapping("/newProduct")
-    public String newProduct(Model model) {
+    public ModelAndView newProduct() {
+        ModelAndView modelAndView = new ModelAndView("forms/newProductForm");
         System.out.println("Entrando en /forms/newProduct");
-        model.addAttribute("product", new NewProductDto());
-        model.addAttribute("categories", categoryService.findAll());
-        return "forms/newProductForm";
+        modelAndView.addObject("product", new NewProductDto());
+        modelAndView.addObject("categories", categoryService.findAll());
+        return modelAndView;
     }
     @PostMapping("/newProduct")
-    public String newProduct(@ModelAttribute NewProductDto newProduct, Model model) {
+    public String newProduct(@Valid @ModelAttribute("product") NewProductDto newProduct,BindingResult bindingResult ,Model model ) {
+
+        bindingResult.getAllErrors().forEach(error -> {
+            System.out.println(error.getDefaultMessage());
+        });
         System.out.println(newProduct);
-    model.addAttribute("product", newProduct);
+        if (bindingResult.hasErrors()) {
+
+//            model.addAttribute("product", newProduct);
+            model.addAttribute("categories", categoryService.findAll());
+            return "forms/newProductForm";
+        }
+//    model.addAttribute("product", newProduct);
     model.addAttribute("categories", categoryService.findAll());
     productService.create(newProduct);
 

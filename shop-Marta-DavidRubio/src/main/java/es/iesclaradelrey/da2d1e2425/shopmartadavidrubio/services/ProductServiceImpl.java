@@ -43,6 +43,28 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void create(NewProductDto newProductDto) {
+
+        if (newProductDto.getCategoryId() == null) {
+            throw new IllegalArgumentException("Category id not found");
+        }
+        if (newProductDto.getName() == null|| newProductDto.getName().isBlank()) {
+            throw new IllegalArgumentException("Product name not found");
+        }
+        if (newProductDto.getDescription() == null) {
+            throw new IllegalArgumentException("Product description not found");
+        }
+        if (newProductDto.getStockQuantity() == null) {
+            throw new IllegalArgumentException("Product stock quantity not found");
+        }
+        if (newProductDto.getPrice() == null ) {
+            throw new IllegalArgumentException("Product price not found");
+
+        }
+
+
+
+
+
         Product product = new Product();
 
         product.setName(newProductDto.getName());
@@ -54,6 +76,7 @@ public class ProductServiceImpl implements ProductService {
 
         Category category=categoryRepository.findById(newProductDto.getCategoryId()).orElseThrow(EntityNotFoundException::new);
         product.setCategory(category);
+
 
         productRepository.save(product);
     }

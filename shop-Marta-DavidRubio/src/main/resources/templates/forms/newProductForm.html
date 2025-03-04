@@ -27,28 +27,44 @@
     <form th:method="post" th:object="${product}">
       <div class="mb-3">
         <label for="name" class="form-label">Nombre de Producto: </label>
-        <input type="text" class="form-control" id="name" th:field="*{name}">
+        <input type="text" class="form-control" id="name" th:field="*{name}" th:errorclass="is-invalid">
+        <div th:if="${#fields.hasErrors('name')}" class="invalid-feedback" th:text="${#fields.errors('name')}">
+          Error.
+        </div>
       </div>
       <div class="mb-3">
         <label for="description" class="form-label">Descripción del producto: </label>
-        <textarea rows="5" cols="5" class="form-control" id="description" th:field="*{description}"></textarea>
+        <textarea rows="5" cols="5" class="form-control" id="description" th:field="*{description}" th:errorclass="is-invalid"></textarea>
+        <div th:if="${#fields.hasErrors('description')}" class="invalid-feedback" th:text="${#fields.errors('description')}">
+          Error.
+        </div>
       </div>
       <div class="mb-3">
         <label for="price" class="form-label">Precio</label>
-        <input type="number" class="form-control" id="price" th:field="*{price}">
+        <input type="number" class="form-control" id="price" th:field="*{price}" th:errorclass="is-invalid">
+        <div th:if="${#fields.hasErrors('price')}" class="invalid-feedback" th:text="${#fields.errors('price')}">
+          Error.
+        </div>
       </div>
       <div class="mb-3">
         <label for="stockQuantity" class="form-label">Cantidad de stock del producto: </label>
-        <input type="number" class="form-control" id="stockQuantity" th:field="*{stockQuantity}">
+        <input type="number" class="form-control" id="stockQuantity" th:field="*{stockQuantity}" th:errorclass="is-invalid">
+        <div th:if="${#fields.hasErrors('stockQuantity')}" class="invalid-feedback" th:text="${#fields.errors('stockQuantity')}">
+          Error.
+        </div>
       </div>
       <div class="mb-3">
         <fieldset class="form-group">
 
           <div class="form-check" th:each="category : ${categories}">
-            <input class="form-check-input" type="radio" id="category" th:id="|category-${category.getId()}|" th:field="*{categoryId}" th:value="${category.getId()}">
+            <input class="form-check-input" type="radio" id="category" th:id="|category-${category.getId()}|" th:field="*{categoryId}" th:value="${category.getId()}" th:errorclass="is-invalid">
             <label class="form-check-label" for="category" th:for="|category-${category.getId()}|" th:text="${category.getName()}">Categoría</label>
           </div>
+
         </fieldset>
+        <div th:if="${#fields.hasErrors('categoryId')}" class="invalid-feedback" th:text="${#fields.errors('categoryId')}">
+          Error.
+        </div>
       </div>
 
       <button type="submit" class="btn btn-primary">Enviar el formulario</button>
