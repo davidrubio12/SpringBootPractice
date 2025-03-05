@@ -2,6 +2,10 @@ package es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.services;
 
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.entities.Category;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.repositories.CategoryRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -26,5 +30,11 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryRepository.findById(id);
     }
 
+    @Override
+    public Page <Category> findAll(Integer pageNumber, Integer pageSize,String orderBy,String orderDir){
+        Sort.Direction direction = orderDir.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Pageable pageRequest = PageRequest.of(pageNumber-1, pageSize, Sort.by(direction, orderBy));
+        return categoryRepository.findAll(pageRequest);
+    }
 
 }
