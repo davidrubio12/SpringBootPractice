@@ -6,9 +6,14 @@ import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.entities.Product;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.repositories.CategoryRepository;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.repositories.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -39,6 +44,20 @@ public class ProductServiceImpl implements ProductService {
 //             .filter(product -> product.getCategory().getId() == id)
 //           .toList();
         return productRepository.findByCategoryId(id);
+    }
+
+    @Override
+    public Collection<Product> findAll() {
+        return productRepository.findAll();
+    }
+
+
+
+    @Override
+    public Page <Product> findAll(Integer pageNumber, Integer pageSize,String orderBy,String orderDir){
+        Sort.Direction direction = orderDir.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Pageable pageRequest = PageRequest.of(pageNumber-1, pageSize, Sort.by(direction, orderBy));
+        return productRepository.findAll(pageRequest);
     }
 
     @Override
