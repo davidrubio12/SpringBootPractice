@@ -26,8 +26,8 @@ public class CategoryAdminController {
                         @RequestParam(defaultValue = "asc") String orderDir,
                         Model model) {
 
-        model.addAttribute("categories", categoryService.findAll());
-        model.addAttribute("pages", categoryService.findAll(pageNumber, pageSize, orderBy, orderDir));
+
+        model.addAttribute("categories", categoryService.findAll(pageNumber, pageSize, orderBy, orderDir));
 
         return "admin/categories/list";
     }

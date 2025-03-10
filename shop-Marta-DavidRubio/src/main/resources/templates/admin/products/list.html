@@ -26,29 +26,32 @@
 <body>
 
 <div class="container" >
-    <h2>Administración de categorías</h2>
+    <h2>Administración de Productos</h2>
     <div class="d-flex align-items-center mb-3">
-        <label class="me-2">Ordenar por:</label>
-        <select class="form-select me-3" style="width: auto;">
-            <option selected>Identificador</option>
-            <option value="1">Nombre</option>
-            <option value="2">Descripción</option>
-        </select>
+        <form method="get">
+            <label class="me-2">Ordenar por:</label>
+            <select class="form-select me-3" style="width: auto;" name="orderBy">
+                <option value="id" selected>Identificador</option>
+                <option value="name">Nombre</option>
+                <option value="description">Descripción</option>
 
-        <label class="me-2">En sentido:</label>
-        <select class="form-select me-3" style="width: auto;">
-            <option selected>Ascendente</option>
-            <option value="1">Descendente</option>
-        </select>
+            </select>
 
-        <label class="me-2">En cada página:</label>
-        <select class="form-select me-3" style="width: auto;">
-            <option selected>5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
-        </select>
+            <label class="me-2">En sentido:</label>
+            <select class="form-select me-3" style="width: auto;" name="orderDir">
+                <option value="asc" selected>Ascendente</option>
+                <option value="desc">Descendente</option>
+            </select>
 
-        <button class="btn btn-primary">Aceptar</button>
+            <label class="me-2">En cada página:</label>
+            <select class="form-select me-3" style="width: auto;" name="pageSize">
+                <option value="5" selected>5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+            </select>
+
+            <button class="btn btn-primary" type="submit">Aceptar</button>
+        </form>
     </div>
 
 
@@ -65,7 +68,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="product : ${pages}">
+        <tr th:each="product : ${products}">
             <td th:text="${product.id}"></td>
             <td th:text="${product.name}"></td>
             <td th:text="${product.description}"></td>
@@ -79,31 +82,7 @@
     </table>
     <!-- Empieza  en la pagina 1-->
 
-    <p>Página <span th:text="${pages.number + 1}">1</span> de <span th:text="${pages.totalPages}">10</span></p>
-
-    <nav aria-label="Page navigation example">
-        <ul class="pagination">
-            <li th:if="${!pages.isFirst()} " class="page-item"><a class="page-link" href="#">Previous</a></li>
-            <li th:if="${pages.isFirst()} " class="page-item disable"><span class="page-link">Previous</span></li>
-
-            <li th:if="${pages.getNumber()>1}" class="page-item "><a th:text="${pages.getNumber()-1}" class="page-link"
-                                                                     href="#">1</a></li>
-            <li th:if="${pages.getNumber()>0}" class="page-item "><a th:text="${pages.getNumber()}" class="page-link"
-                                                                     href="#">2</a></li>
-            <li class="page-item "><span th:text="${pages.getNumber()+1}" class="page-link">3</span></li>
-            <!--        PROBLEMA-->
-            <li th:if="${pages.getNumber()<pages.getTotalPages()-1}" class="page-item "><a th:text="${pages.getNumber()+2}"
-                                                                                           class="page-link" href="#">4</a>
-            </li>
-            <li th:if="${pages.getNumber()<pages.getTotalPages()-2}" class="page-item "><a th:text="${pages.getNumber()+3}"
-                                                                                           class="page-link" href="#">5</a>
-            </li>
-
-
-            <li th:if="${!pages.isLast()}" class="page-item"><a class="page-link">Next</a></li>
-            <li th:if="${pages.isLast()} " class="page-item disable"><span class="page-link">Next</span></li>
-        </ul>
-    </nav>
+  <div th:replace="~{/admin/adminFragments::pagination (${products})}">
 
 
 </body>
