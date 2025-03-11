@@ -26,6 +26,7 @@ public class ProductAdminController {
                         Model model) {
 
 
+
         model.addAttribute("products",productService.findAll(pageNumber, pageSize, orderBy, orderDir));
         model.addAttribute("orderBy", orderBy);
         model.addAttribute("orderDir", orderDir);

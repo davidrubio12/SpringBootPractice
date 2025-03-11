@@ -5,20 +5,20 @@
     <title>Title</title>
 </head>
 <body>
-<div class="d-flex align-items-center mb-3" th:fragment="ordenation(page)">
+<div class="d-flex align-items-center mb-3" th:fragment="ordenation(page,orderBy,orderDir)">
     <form method="get" class="d-flex align-items-center">
         <label class="me-2">Ordenar por:</label>
         <select class="form-select me-3" style="width: 150px;" name="orderBy">
-            <option value="id" selected>Identificador</option>
-            <option value="name">Nombre</option>
-            <option value="description">Descripción</option>
+            <option th:selected="${orderBy=='id'}" value="id" selected>Identificador</option>
+            <option th:selected="${orderBy=='name'}" value="name">Nombre</option>
+            <option th:selected="${orderBy=='description'}" value="description">Descripción</option>
 
         </select>
 
         <label class="me-2">En sentido:</label>
         <select class="form-select me-3" style="width: 150px;" name="orderDir">
-            <option value="asc" selected>Ascendente</option>
-            <option value="desc">Descendente</option>
+            <option th:selected="${orderDir=='asc'}" value="asc" selected>Ascendente</option>
+            <option th:selected="${orderDir=='desc'}" value="desc">Descendente</option>
         </select>
 
         <label class="me-2">En cada página:</label>

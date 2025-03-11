@@ -31,7 +31,7 @@
     <h2>Administración de categorías</h2>
     </div>
 
-    <div th:replace="~{/admin/adminFragmentOrder::ordenation(${categories})}"></div>
+    <div th:replace="~{/admin/adminFragmentOrder::ordenation(${categories},${orderBy},${orderDir})}"></div>
 
 
     <table class="table table-striped">
