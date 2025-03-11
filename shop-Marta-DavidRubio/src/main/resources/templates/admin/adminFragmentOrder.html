@@ -5,13 +5,13 @@
     <title>Title</title>
 </head>
 <body>
-<div class="d-flex align-items-center mb-3" th:fragment="ordenation(page,orderBy,orderDir)">
+<div class="d-flex align-items-center mb-3" th:fragment="ordenation(page,orderOptions,orderBy,orderDir,pageSize)">
     <form method="get" class="d-flex align-items-center">
         <label class="me-2">Ordenar por:</label>
         <select class="form-select me-3" style="width: 150px;" name="orderBy">
-            <option th:selected="${orderBy=='id'}" value="id" selected>Identificador</option>
-            <option th:selected="${orderBy=='name'}" value="name">Nombre</option>
-            <option th:selected="${orderBy=='description'}" value="description">Descripción</option>
+            <option th:each="orderOption:${orderOptions}" th:selected="${orderBy==orderOption.getKey()}" th:value="${orderOption.getKey()}" th:text="${orderOption.getValue()}" selected>Campo</option>
+<!--            <option th:selected="${orderBy=='name'}" value="name">Nombre</option>-->
+<!--            <option th:selected="${orderBy=='description'}" value="description">Descripción</option>-->
 
         </select>
 
@@ -23,9 +23,9 @@
 
         <label class="me-2">En cada página:</label>
         <select class="form-select me-3" style="width: 80px;" name="pageSize">
-            <option value="5" selected>5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
+            <option th:selected="${pageSize==5}" value="5" selected>5</option>
+            <option th:selected="${pageSize==10}" value="10">10</option>
+            <option th:selected="${pageSize==20}" value="20">20</option>
         </select>
 
         <button class="btn btn-primary" type="submit">Aceptar</button>
