@@ -26,7 +26,9 @@
 <body>
 
 <div class="container" >
+    <div style="background-color: black; color: white; padding: 10px; margin-bottom: 20px;">
     <h2>Administración de Productos</h2>
+    </div>
 
     <div th:replace="~{/admin/adminFragmentOrder::ordenation(${products})}"></div>
 
@@ -58,9 +60,14 @@
     </table>
     <!-- Empieza  en la pagina 1-->
 
-    <div th:replace="~{/admin/adminFragmentPagination::pagination(page=${products}, url='/admin/products', currentPageNumber=${pageNumber}, pageSize=${pageSize})}"></div>
+    <div th:replace="~{/admin/adminFragmentPagination::pagination(page=${products}, url='/admin/products',orderBy=${orderBy},orderDir=${orderDir})}"></div>
 
+    <footer style="background-color: black; color: white; padding: 10px;">
+        <div  class="d-flex justify-content-center">
+            <p style="color:white;">Copyright@ShopDavidYMarta</p>
+        </div>
 
+    </footer>
 
 </body>
 </html>

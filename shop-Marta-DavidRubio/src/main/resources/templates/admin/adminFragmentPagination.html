@@ -5,14 +5,16 @@
     <title>Title</title>
 </head>
 <body>
-<div th:fragment="pagination (page,url, currentPageNumber,pageSize)" class="d-flex align-items-center" >
+<div th:fragment="pagination (page,url,orderBy,orderDir)"  class="d-flex justify-content-between"  >
+    <div class="d-flex align-items-center" style="justify-content: start;">
     <p>Página <span th:text="${page.number + 1}">1</span> de <span th:text="${page.getTotalPages()}">10</span></p>
-
-    <nav aria-label="Page navigation example" style="display: flex; justify-content:end">
+    </div>
+    <div  class="d-flex align-items-center" style="justify-content: end;">
+    <nav aria-label="Page navigation example" >
         <ul class="pagination" >
             <li th:if="${!page.isFirst()}" class="page-item">
                 <a class="page-link"
-                   th:href="@{__${url}__(currentPageNumber=${page.number -1}, pageSize=${page.size})}">Previous</a>
+                   th:href="@{__${url}__(pageNumber=${page.number}, pageSize=${page.size},orderBy=${orderBy},orderDir=${orderDir})}">Previous</a>
 
             </li>
             <li th:if="${page.isFirst()}" class="page-item disable">
@@ -20,32 +22,33 @@
             </li>
 
             <li th:if="${page.getNumber()>1}" class="page-item "><a th:text="${page.getNumber()-1}"
-                                                                    th:href="@{__${url}__(currentPageNumber=${page.number - 1}, pageSize=${page.size})}"
+                                                                    th:href="@{__${url}__(pageNumber=${page.number - 1}, pageSize=${page.size},orderBy=${orderBy},orderDir=${orderDir})}"
                                                                     class="page-link">1</a></li>
             <li th:if="${page.getNumber()>0}" class="page-item "><a th:text="${page.getNumber()}"
-                                                                    th:href="@{__${url}__(currentPageNumber=${page.number}, pageSize=${page.size})}"
+                                                                    th:href="@{__${url}__(pageNumber=${page.number}, pageSize=${page.size},orderBy=${orderBy},orderDir=${orderDir})}"
                                                                     class="page-link">2</a></li>
             <li class="page-item active "><span th:text="${page.getNumber()+1}" class="page-link">3</span></li>
             <!--        PROBLEMA-->
             <li th:if="${page.getNumber()<page.getTotalPages()-1}" class="page-item "><a th:text="${page.getNumber()+2}"
-                                                                                         th:href="@{__${url}__(currentPageNumber=${page.number + 2}, pageSize=${page.size})}"
+                                                                                         th:href="@{__${url}__(pageNumber=${page.number + 2}, pageSize=${page.size},orderBy=${orderBy},orderDir=${orderDir})}"
                                                                                          class="page-link">4</a>
             </li>
             <li th:if="${page.getNumber()<page.getTotalPages()-2}" class="page-item "><a th:text="${page.getNumber()+3}"
-                                                                                         th:href="@{__${url}__(currentPageNumber=${page.number + 3}, pageSize=${page.size})}"
+                                                                                         th:href="@{__${url}__(pageNumber=${page.number + 3}, pageSize=${page.size},orderBy=${orderBy},orderDir=${orderDir})}"
                                                                                          class="page-link">5</a>
             </li>
 
 
             <li th:if="${!page.isLast()}" class="page-item">
                 <a class="page-link"
-                   th:href="@{__${url}__(currentPageNumber=${page.number + 1}, pageSize=${page.size})}">Next</a>
+                   th:href="@{${url}(pageNumber=${page.number + 2}, pageSize=${page.size},orderBy=${orderBy},orderDir=${orderDir})}">Next</a>
             </li>
             <li th:if="${page.isLast()}" class="page-item disable">
                 <span class="page-link">Next</span>
             </li>
         </ul>
     </nav>
+    </div>
 </div>
 </body>
 </html>
