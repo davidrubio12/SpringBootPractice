@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="pagination (page,url)">
+    <p>Página <span th:text="${page.number + 1}">1</span> de <span th:text="${page.getTotalPages()}">10</span></p>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li th:if="${!page.isFirst()}" class="page-item">
+                <a class="page-link"
+                   th:href="@{${url}(page=${page.number -1}, pageSize=${page.size})}">Previous</a>
+            </li>
+            <li th:if="${page.isFirst()}" class="page-item disable">
+                <span class="page-link">Previous</span>
+            </li>
+
+            <li th:if="${page.getNumber()>1}" class="page-item "><a th:text="${page.getNumber()-1}"
+                                                                    th:href="@{${url}(page=${page.number - 1}, pageSize=${page.size})}"
+                                                                    class="page-link">1</a></li>
+            <li th:if="${page.getNumber()>0}" class="page-item "><a th:text="${page.getNumber()}"
+                                                                    th:href="@{${url}(page=${page.number}, pageSize=${page.size})}"
+                                                                    class="page-link">2</a></li>
+            <li class="page-item active "><span th:text="${page.getNumber()+1}" class="page-link">3</span></li>
+            <!--        PROBLEMA-->
+            <li th:if="${page.getNumber()<page.getTotalPages()-1}" class="page-item "><a th:text="${page.getNumber()+2}"
+                                                                                         th:href="@{${url}(page=${page.number + 2}, pageSize=${page.size})}"
+                                                                                         class="page-link">4</a>
+            </li>
+            <li th:if="${page.getNumber()<page.getTotalPages()-2}" class="page-item "><a th:text="${page.getNumber()+3}"
+                                                                                         th:href="@{${url}(page=${page.number + 3}, pageSize=${page.size})}"
+                                                                                         class="page-link">5</a>
+            </li>
+
+
+            <li th:if="${!page.isLast()}" class="page-item">
+                <a class="page-link"
+                   th:href="@{${url}(page=${page.number + 1}, pageSize=${page.size})}">Next</a>
+            </li>
+            <li th:if="${page.isLast()}" class="page-item disable">
+                <span class="page-link">Next</span>
+            </li>
+        </ul>
+    </nav>
+</div>
+</body>
+</html>

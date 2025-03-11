@@ -27,32 +27,8 @@
 
 <div class="container" >
     <h2>Administración de Productos</h2>
-    <div class="d-flex align-items-center mb-3">
-        <form method="get">
-            <label class="me-2">Ordenar por:</label>
-            <select class="form-select me-3" style="width: auto;" name="orderBy">
-                <option value="id" selected>Identificador</option>
-                <option value="name">Nombre</option>
-                <option value="description">Descripción</option>
 
-            </select>
-
-            <label class="me-2">En sentido:</label>
-            <select class="form-select me-3" style="width: auto;" name="orderDir">
-                <option value="asc" selected>Ascendente</option>
-                <option value="desc">Descendente</option>
-            </select>
-
-            <label class="me-2">En cada página:</label>
-            <select class="form-select me-3" style="width: auto;" name="pageSize">
-                <option value="5" selected>5</option>
-                <option value="10">10</option>
-                <option value="20">20</option>
-            </select>
-
-            <button class="btn btn-primary" type="submit">Aceptar</button>
-        </form>
-    </div>
+    <div th:replace="~{/admin/adminFragmentOrder::ordenation(${products})}"></div>
 
 
 
@@ -82,7 +58,8 @@
     </table>
     <!-- Empieza  en la pagina 1-->
 
-  <div th:replace="~{/admin/adminFragments::pagination (${products})}">
+    <div th:replace="~{/admin/adminFragmentPagination::pagination(page=${products}, url='/admin/products')}"></div>
+
 
 
 </body>
