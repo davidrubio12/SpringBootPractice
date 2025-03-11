@@ -58,7 +58,7 @@
     </table>
     <!-- Empieza  en la pagina 1-->
 
-    <div th:replace="~{/admin/adminFragmentPagination::pagination(page=${products}, url='/admin/products')}"></div>
+    <div th:replace="~{/admin/adminFragmentPagination::pagination(page=${products}, url='/admin/products', currentPageNumber=${pageNumber}, pageSize=${pageSize})}"></div>
 
 
 

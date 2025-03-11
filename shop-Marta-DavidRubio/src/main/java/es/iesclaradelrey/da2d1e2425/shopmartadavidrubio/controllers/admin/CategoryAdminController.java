@@ -28,6 +28,7 @@ public class CategoryAdminController {
 
 
         model.addAttribute("categories", categoryService.findAll(pageNumber, pageSize, orderBy, orderDir));
+        model.addAttribute("url", "/admin/categories");
 
         return "admin/categories/list";
     }

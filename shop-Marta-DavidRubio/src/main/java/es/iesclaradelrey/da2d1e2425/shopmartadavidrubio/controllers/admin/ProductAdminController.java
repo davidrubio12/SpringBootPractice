@@ -28,6 +28,8 @@ public class ProductAdminController {
 
         model.addAttribute("products",productService.findAll(pageNumber, pageSize, orderBy, orderDir));
         model.addAttribute("url", "/admin/products");
+        model.addAttribute("pageNumber", pageNumber);
+        model.addAttribute("pageSize", pageSize);
 
         return "admin/products/list";
     }
