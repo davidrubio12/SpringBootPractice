@@ -1,3 +1,4 @@
+<!--<link rel="stylesheet" th:href="@{../styles/home.css}">-->
 <footer class="footer" th:fragment="footer">
     <ul>
         <!--        Prueba: poner las rrss como enlaces y con el @ (a href="@{/}">)-->
@@ -5,6 +6,8 @@
         <li class="twitter"><i class="fa-brands fa-twitter icon2 icon"></i></li>
         <li class="youtube"><i class="fa-brands fa-youtube icon3 icon"></i></li>
         <li class="facebook"><i class="fa-brands fa-facebook icon4 icon"></i></li>
+        <li  >
+            <a class="admin" th:href="@{/admin}"><i class="fa-solid fa-gear icon4 icon" > </i></a></li>
     </ul>
 
     <script th:inline="javascript">

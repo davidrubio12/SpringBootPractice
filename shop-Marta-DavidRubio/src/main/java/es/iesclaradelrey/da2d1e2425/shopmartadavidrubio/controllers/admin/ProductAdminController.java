@@ -21,8 +21,8 @@ public class ProductAdminController {
         this.productService = productService;
     }
 
-    @GetMapping({"/", ""})
-    public String index(@RequestParam(defaultValue = "1") Integer pageNumber,
+    @GetMapping("/list")
+    public String pagesProducts(@RequestParam(defaultValue = "1") Integer pageNumber,
                         @RequestParam(defaultValue = "5") Integer pageSize,
                         @RequestParam(defaultValue = "name") String orderBy,
                         @RequestParam(defaultValue = "asc") String orderDir,

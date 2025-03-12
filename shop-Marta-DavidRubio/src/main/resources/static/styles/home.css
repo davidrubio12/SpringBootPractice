@@ -477,3 +477,9 @@ nav a:hover {
 #menu-toggle:checked+.menu {
     display: block;
 }
+.admin {
+    color: white;
+    text-decoration: none;
+
+
+}

@@ -22,8 +22,8 @@ public class CategoryAdminController {
         this.categoryService = categoryService;
     }
 
-    @GetMapping({"/", ""})
-    public String index(@RequestParam(defaultValue = "1") Integer pageNumber,
+    @GetMapping("/list")
+    public String pageCategories(@RequestParam(defaultValue = "1") Integer pageNumber,
                         @RequestParam(defaultValue = "5") Integer pageSize,
                         @RequestParam(defaultValue = "name")String orderBy,
                         @RequestParam(defaultValue = "asc") String orderDir,
