@@ -1,11 +1,9 @@
 package es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.controllers.forms;
 
-import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.dto.NewProductDto;
-import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.entities.Product;
+import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.dto.admin.NewProductDto;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.services.CategoryService;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.services.ProductService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,7 +26,7 @@ public class FormNewProductController {
 
     @GetMapping("/newProduct")
     public ModelAndView newProduct() {
-        ModelAndView modelAndView = new ModelAndView("forms/newProductForm");
+        ModelAndView modelAndView = new ModelAndView("/admin/products/forms/newProductForm");
         System.out.println("Entrando en /forms/newProduct");
         modelAndView.addObject("product", new NewProductDto());
         modelAndView.addObject("categories", categoryService.findAll());
@@ -45,13 +43,13 @@ public class FormNewProductController {
 
 //            model.addAttribute("product", newProduct);
             model.addAttribute("categories", categoryService.findAll());
-            return "forms/newProductForm";
+            return "/admin/products/forms/newProductForm";
         }
 //    model.addAttribute("product", newProduct);
     model.addAttribute("categories", categoryService.findAll());
     productService.create(newProduct);
 
-    return "forms/newProductForm";
+    return "/admin/products/forms/newProductForm";
 
     }
 
