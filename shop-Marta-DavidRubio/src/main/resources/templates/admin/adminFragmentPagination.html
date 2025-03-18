@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
 </head>
 <body>
 <div th:fragment="pagination (page,url,orderBy,orderDir)"  class="d-flex justify-content-between"  >
@@ -17,7 +18,7 @@
                    th:href="@{__${url}__(pageNumber=${page.number}, pageSize=${page.size},orderBy=${orderBy},orderDir=${orderDir})}">Previous</a>
 
             </li>
-            <li th:if="${page.isFirst()}" class="page-item disable">
+            <li th:if="${page.isFirst()}"   class="page-item disabled ">
                 <span class="page-link">Previous</span>
             </li>
 
@@ -43,7 +44,7 @@
                 <a class="page-link"
                    th:href="@{${url}(pageNumber=${page.number + 2}, pageSize=${page.size},orderBy=${orderBy},orderDir=${orderDir})}">Next</a>
             </li>
-            <li th:if="${page.isLast()}" class="page-item disable">
+            <li th:if="${page.isLast()}" class="page-item disabled">
                 <span class="page-link">Next</span>
             </li>
         </ul>

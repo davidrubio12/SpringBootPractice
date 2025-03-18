@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -24,7 +25,7 @@ public class CategoryAdminController {
 
     @GetMapping("/list")
     public String pageCategories(@RequestParam(defaultValue = "1") Integer pageNumber,
-                        @RequestParam(defaultValue = "5") Integer pageSize,
+                        @RequestParam(defaultValue = "1") Integer pageSize,
                         @RequestParam(defaultValue = "name")String orderBy,
                         @RequestParam(defaultValue = "asc") String orderDir,
                         Model model) {
@@ -38,6 +39,7 @@ public class CategoryAdminController {
         model.addAttribute("categories", categoryService.findAll(pageNumber, pageSize, orderBy, orderDir));
         model.addAttribute("orderBy", orderBy);
         model.addAttribute("orderDir", orderDir);
+        model.addAttribute("pageSizeOptions", List.of(1,2,3));
 
 
         return "admin/categories/list";

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -37,6 +38,7 @@ public class ProductAdminController {
         model.addAttribute("products", productService.findAll(pageNumber, pageSize, orderBy, orderDir));
         model.addAttribute("orderBy", orderBy);
         model.addAttribute("orderDir", orderDir);
+        model.addAttribute("pageSizeOptions", List.of(5,10,20));
 
         return "admin/products/list";
     }

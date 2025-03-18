@@ -28,10 +28,10 @@
 
 <div class="container">
     <div style="background-color: black; color: white; padding: 10px; margin-bottom: 20px;">
-    <h2>Administración de categorías</h2>
+        <h2>Administración de categorías</h2>
     </div>
 
-    <div th:replace="~{/admin/adminFragmentOrder::ordenation(${categories},${orderFields},${orderBy},${orderDir},${categories.getSize()})}"></div>
+    <div th:replace="~{/admin/adminFragmentOrder::ordenation(${orderFields},${orderBy},${orderDir},${categories.getSize()},${pageSizeOptions})}"></div>
 
 
     <table class="table table-striped">
@@ -53,10 +53,18 @@
         </tbody>
     </table>
     <!-- Empieza  en la pagina 1-->
-    <div th:replace="~{/admin/adminFragmentPagination::pagination(page=${categories}, url='/admin/categories',orderBy=${orderBy},orderDir=${orderDir})}"></div>
+    <div th:replace="~{/admin/adminFragmentPagination::pagination(page=${categories}, url='/admin/categories/list',orderBy=${orderBy},orderDir=${orderDir})}"></div>
     <footer style="background-color: black; color: white; padding: 10px;">
-        <div  class="d-flex justify-content-center">
+        <div class="d-flex justify-content-center">
             <p style="color:white;">Copyright@ShopDavidYMarta</p>
+        </div>
+        <div style="display: flex; gap: 20px; padding: 10px;">
+            <a th:href="@{/admin/products/list}" style="text-decoration: none; color: #4CAF50; font-weight: bold;">Administración
+                de Productos</a>
+            <a th:href="@{/}" style="text-decoration: none; color: #4CAF50; font-weight: bold;">Home</a>
+            <a th:href="@{/admin}" style="text-decoration: none; color: #4CAF50; font-weight: bold;">Administración</a>
+
+
         </div>
 
     </footer>
