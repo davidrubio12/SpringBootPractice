@@ -17,4 +17,6 @@ public interface CategoryService {
     void create(NewCategoryDto newCategoryDto);
 
     boolean existsByName(@NotNull @NotBlank(message = "Este campo no puede estar vacío") String name);
+
+    void deleteById(Long id);
 }

@@ -61,4 +61,6 @@ public class FormNewCategoryController {
         //mirar si la ruta la tengo bien
         return "redirect:/admin/categories/list";
     }
+
+
 }

@@ -4,9 +4,8 @@ package es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.controllers.admin;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.services.CategoryService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -44,4 +43,31 @@ public class CategoryAdminController {
 
         return "admin/categories/list";
     }
+    @GetMapping("/delete/{id}")
+    public String showDeleteForm(@PathVariable Long id, Model model) {
+        try {
+            var category = categoryService.findById(id)
+                    .orElseThrow(() -> new IllegalArgumentException("Categoría no encontrada"));
+            model.addAttribute("category", category);
+        } catch (Exception e) {
+            model.addAttribute("globalError", "No se pudo cargar la categoría para eliminar.");
+            return "redirect:/admin/categories/list";
+        }
+        return "admin/categories/forms/deleteCategoryForm"; // Nombre del archivo HTML del formulario
+    }
+
+
+
+    @PostMapping("/delete/{id}")
+    public String deleteCategory(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        try {
+            categoryService.deleteById(id);
+            redirectAttributes.addFlashAttribute("successMessage", "Categoría eliminada correctamente.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("globalError", "No se pudo eliminar la categoría.");
+
+        }
+        return "redirect:/admin/categories/list";
+    }
+
 }

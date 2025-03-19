@@ -30,15 +30,9 @@
     <div style="background-color: black; color: white; padding: 10px; margin-bottom: 20px;">
         <h2>Administración de categorías</h2>
     </div>
-<!--    mensajes-->
-    <div th:if="${successMessage}" class="alert alert-success" role="alert">
-        <p th:text="${successMessage}"></p>
-    </div>
-    <div th:if="${globalError}" class="alert alert-danger" role="alert">
-        <p th:text="${globalError}"></p>
-    </div>
 
-<!--crear categoria-->
+
+    <!--crear categoria-->
     <div style="margin-bottom: 20px;">
         <a th:href="@{/admin/categories/forms/newCategoryForm}" class="btn btn-primary">Crear nueva categoría</a>
     </div>
@@ -60,12 +54,30 @@
             <td th:text="${category.id}"></td>
             <td th:text="${category.name}"></td>
             <td th:text="${category.description}"></td>
-            <td>Acciones</td>
+            <td>
+                <a th:href="@{/admin/categories/forms/deleteCategoryForm}" class="btn btn-danger">
+                    Eliminar
+                </a>
+            </td>
         </tr>
         </tbody>
     </table>
     <!-- Empieza  en la pagina 1-->
     <div th:replace="~{/admin/adminFragmentPagination::pagination(page=${categories}, url='/admin/categories/list',orderBy=${orderBy},orderDir=${orderDir})}"></div>
+
+    <div class="container">
+        <div class="container">
+            <div th:if="${successMessage}" class="alert alert-success" role="alert">
+                <p th:text="${successMessage}"></p>
+            </div>
+
+            <div th:if="${globalError}" class="alert alert-success" role="alert">
+                <p th:text="${globalError}"></p>
+            </div>
+
+        </div>
+
+    </div>
     <footer style="background-color: black; color: white; padding: 10px;">
         <div class="d-flex justify-content-center">
             <p style="color:white;">Copyright@ShopDavidYMarta</p>
