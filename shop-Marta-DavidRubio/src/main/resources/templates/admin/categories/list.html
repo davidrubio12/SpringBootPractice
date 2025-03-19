@@ -30,6 +30,18 @@
     <div style="background-color: black; color: white; padding: 10px; margin-bottom: 20px;">
         <h2>Administración de categorías</h2>
     </div>
+<!--    mensajes-->
+    <div th:if="${successMessage}" class="alert alert-success" role="alert">
+        <p th:text="${successMessage}"></p>
+    </div>
+    <div th:if="${globalError}" class="alert alert-danger" role="alert">
+        <p th:text="${globalError}"></p>
+    </div>
+
+<!--crear categoria-->
+    <div style="margin-bottom: 20px;">
+        <a th:href="@{/admin/categories/forms/newCategoryForm}" class="btn btn-primary">Crear nueva categoría</a>
+    </div>
 
     <div th:replace="~{/admin/adminFragmentOrder::ordenation(${orderFields},${orderBy},${orderDir},${categories.getSize()},${pageSizeOptions})}"></div>
 

@@ -2,6 +2,8 @@ package es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.services;
 
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.dto.admin.NewCategoryDto;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.entities.Category;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.domain.Page;
 
 import java.util.Collection;
@@ -14,4 +16,5 @@ public interface CategoryService {
     Page<Category> findAll(Integer pageNumber, Integer pageSize, String orderBy, String orderDir);
     void create(NewCategoryDto newCategoryDto);
 
+    boolean existsByName(@NotNull @NotBlank(message = "Este campo no puede estar vacío") String name);
 }
