@@ -53,7 +53,7 @@ public class CategoryAdminController {
             model.addAttribute("globalError", "No se pudo cargar la categoría para eliminar.");
             return "redirect:/admin/categories/list";
         }
-        return "admin/categories/forms/deleteCategoryForm"; // Nombre del archivo HTML del formulario
+        return "admin/categories/forms/deleteCategoryForm";
     }
 
 

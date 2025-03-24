@@ -55,7 +55,7 @@
             <td th:text="${category.name}"></td>
             <td th:text="${category.description}"></td>
             <td>
-                <a th:href="@{/admin/categories/forms/deleteCategoryForm}" class="btn btn-danger">
+                <a th:href="@{|/admin/categories/delete/${category.id}|}" class="btn btn-danger">
                     Eliminar
                 </a>
             </td>

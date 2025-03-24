@@ -37,8 +37,9 @@
     </div>
 
     <form th:method="post" th:action="@{/admin/categories/forms/deleteCategoryForm}">
-        <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+        <a th:href="@{|/admin/categories/delete/${category.id}|}" type="submit" class="btn btn-danger">Sí, eliminar</a>
         <a th:href="@{/admin/categories/list}" class="btn btn-secondary">Cancelar</a>
+        <a th:href="@{/admin/categories/list}" class="btn btn-primary">Volver al listado</a>
     </form>
 
     <div th:if="${globalError}" class="alert alert-danger mt-3" role="alert">
