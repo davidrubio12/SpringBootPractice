@@ -3,6 +3,7 @@ package es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.services;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.dto.admin.NewProductDto;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.entities.Category;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.entities.Product;
+import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.exceptions.admin.ProductAlreadyExistsException;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.repositories.CategoryRepository;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.repositories.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -62,22 +63,15 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void create(NewProductDto newProductDto) {
 
-        if (newProductDto.getCategoryId() == null) {
-            throw new IllegalArgumentException("Category id not found");
+        if(existsByName(newProductDto.getName())){
+            throw new ProductAlreadyExistsException("Ya existe un producto con ese nombre"
+                    + newProductDto.getName());
         }
-        if (newProductDto.getName() == null|| newProductDto.getName().isBlank()) {
-            throw new IllegalArgumentException("Product name not found");
-        }
-        if (newProductDto.getDescription() == null) {
-            throw new IllegalArgumentException("Product description not found");
-        }
-        if (newProductDto.getStockQuantity() == null) {
-            throw new IllegalArgumentException("Product stock quantity not found");
-        }
-        if (newProductDto.getPrice() == null ) {
-            throw new IllegalArgumentException("Product price not found");
 
-        }
+        Category category = categoryRepository.findById(newProductDto.getCategoryId())
+                .orElseThrow(() -> new EntityNotFoundException("Categoría no encontrada "));
+
+
 
 
 
@@ -89,15 +83,16 @@ public class ProductServiceImpl implements ProductService {
         product.setDescription(newProductDto.getDescription());
         product.setPrice(newProductDto.getPrice());
         product.setStockQuantity(newProductDto.getStockQuantity());
-
-//        product.setCategory(categoryRepository.getReferenceById(newProductDto.getCategoryId()));
-
-        Category category=categoryRepository.findById(newProductDto.getCategoryId()).orElseThrow(EntityNotFoundException::new);
         product.setCategory(category);
-
-
         productRepository.save(product);
+
+
+
     }
 
+    @Override
+    public boolean existsByName(String name) {
+        return productRepository.existsByName(name);
+    }
 
 }

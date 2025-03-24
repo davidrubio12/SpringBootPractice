@@ -1,12 +1,16 @@
 package es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.controllers.admin;
 
 
+import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.dto.admin.NewCategoryDto;
+import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.exceptions.admin.CategoryAlreadyExistsException;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.services.CategoryService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -43,5 +47,47 @@ public class CategoryAdminController {
 
 
         return "admin/categories/list";
+    }
+
+    @GetMapping("/new")
+    public ModelAndView newCategory() {
+        ModelAndView modelAndView = new ModelAndView("admin/categories/forms/newCategoryForm");
+
+        modelAndView.addObject("category", new NewCategoryDto());
+        modelAndView.addObject("categories", categoryService.findAll());
+
+        return modelAndView;
+    }
+
+    @PostMapping("/new")
+    public String newCategory(@Valid @ModelAttribute("category") NewCategoryDto newCategory, BindingResult bindingResult, Model model,
+                              RedirectAttributes redirectAttributes) {
+        bindingResult.getAllErrors().forEach(error -> {
+            System.out.println(error.getDefaultMessage());
+        });
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("categories", categoryService.findAll());
+            return "admin/categories/forms/newCategoryForm";
+        }
+
+        try{
+            categoryService.create(newCategory);
+        }catch(CategoryAlreadyExistsException e){
+            bindingResult.reject("globalError","Error al crear la categoría: "+
+                    e.getMessage());
+            model.addAttribute("categories", categoryService.findAll());
+            return "admin/categories/forms/newCategoryForm";
+        }catch (Exception e) {
+
+            bindingResult.reject("globalError", "Error inesperado al crear la categoría: " + e.getMessage());
+            model.addAttribute("categories", categoryService.findAll());
+            return "admin/categories/forms/newCategoryForm";
+        }
+
+        redirectAttributes.addFlashAttribute("successMessage","Categoría creada correctamente");
+
+
+        return "redirect:/admin/categories/list";
     }
 }

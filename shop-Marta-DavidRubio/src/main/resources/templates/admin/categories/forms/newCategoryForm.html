@@ -24,7 +24,7 @@
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);"> Formulario para añadir una nueva Categoría</h1>
 <div class="container">
     <div class="container">
-        <form th:method="post" th:object="${category}" th:action="@{/admin/categories/forms/newCategoryForm}">
+        <form th:method="post" th:object="${category}" th:action="@{/admin/categories/new}">
             <div class="mb-3">
                 <label for="name" class="form-label">Nombre de Categoría: </label>
                 <input type="text" class="form-control" id="name" th:field="*{name}" th:errorclass="is-invalid">
@@ -55,9 +55,9 @@
 <!--                </div>-->
 <!--            </div>-->
 
-            <button type="submit" class="btn btn-primary">Enviar el formulario</button>
+            <button type="submit" class="btn btn-primary">Crear nueva categoría</button>
             <button type="button" class="btn btn-primary">
-                <a  th:href="@{/}" style="color: white;text-decoration: none;">Volver a Categorías</a>
+                <a  th:href="@{/admin/categories/list}" style="color: white;text-decoration: none;">Volver a Categorías</a>
             </button>
         </form>
     </div>

@@ -31,6 +31,9 @@
         <h2>Administración de Productos</h2>
     </div>
 
+    <div style="margin-bottom: 20px;">
+        <a th:href="@{/admin/products/new}" class="btn btn-primary">Crear un nuevo Producto</a>
+    </div>
     <div th:replace="~{/admin/adminFragmentOrder::ordenation(${orderFields},${orderBy},${orderDir},${products.getSize()},${pageSizeOptions})}"></div>
 
 
