@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="https://www.thymeleaf.org">
 <head>
-<!-- th:replace="~{fragments/fragments :: head('Formulario añadir nuevo producto')}"-->
   <meta charset="UTF-8">
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -11,21 +10,23 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
           integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
           crossorigin="anonymous"></script>
-
   <title>Añadir Nuevo Producto</title>
 </head>
 <body>
-<h1  style="
-    font-size: 36px;
-    color:black;
-    font-weight: bold;
-    text-align: center;
-    font-family: Arial, sans-serif;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);"> Formulario para añadir nuevo producto</h1>
+<h1 style="font-size: 36px; color:black; font-weight: bold; text-align: center; font-family: Arial, sans-serif; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Formulario para añadir nuevo producto</h1>
 <div class="container">
   <div class="container">
-    <form th:method="post" th:object="${product}">
+
+
+    <form th:method="post" th:object="${product}" th:action="@{/admin/products/new}">
+
+      <div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger" role="alert">
+        <ul>
+          <li th:each="err : ${#fields.globalErrors()}" th:text="${err}"></li>
+        </ul>
+      </div>
       <div class="mb-3">
+
         <label for="name" class="form-label">Nombre de Producto: </label>
         <input type="text" class="form-control" id="name" th:field="*{name}" th:errorclass="is-invalid">
         <div th:if="${#fields.hasErrors('name')}" class="invalid-feedback" th:text="${#fields.errors('name')}">
@@ -55,28 +56,22 @@
       </div>
       <div class="mb-3">
         <fieldset class="form-group">
-
           <div class="form-check" th:each="category : ${categories}">
             <input class="form-check-input" type="radio" id="category" th:id="|category-${category.getId()}|" th:field="*{categoryId}" th:value="${category.getId()}" th:errorclass="is-invalid">
             <label class="form-check-label" for="category" th:for="|category-${category.getId()}|" th:text="${category.getName()}">Categoría</label>
           </div>
-
         </fieldset>
         <div th:if="${#fields.hasErrors('categoryId')}" class="invalid-feedback" th:text="${#fields.errors('categoryId')}">
           Error.
         </div>
       </div>
 
-      <button type="submit" class="btn btn-primary">Enviar el formulario</button>
+      <button type="submit" class="btn btn-primary">Crear nuevo producto</button>
       <button type="button" class="btn btn-primary">
-        <a th:href="@{/static}" style="color: white;text-decoration: none;">Volver a Categorías</a>
+        <a th:href="@{/admin/products/list}" style="color: white;text-decoration: none;">Volver al listado de Productos</a>
       </button>
     </form>
   </div>
-
 </div>
-
-
-
 </body>
 </html>
