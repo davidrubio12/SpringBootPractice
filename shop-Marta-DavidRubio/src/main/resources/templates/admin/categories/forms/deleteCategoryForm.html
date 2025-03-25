@@ -35,12 +35,13 @@
         </ul>
         <p>Esta acción es irreversible. ¿Estás seguro?</p>
     </div>
-
-    <form th:method="post" th:action="@{/admin/categories/forms/deleteCategoryForm}">
-        <a th:href="@{|/admin/categories/delete/${category.id}|}" type="submit" class="btn btn-danger">Sí, eliminar</a>
-        <a th:href="@{/admin/categories/list}" class="btn btn-secondary">Cancelar</a>
-        <a th:href="@{/admin/categories/list}" class="btn btn-primary">Volver al listado</a>
+<div>
+    <form th:method="post" >
+        <button type="submit" class="btn btn-danger">Sí, eliminar</button>
     </form>
+    <a th:href="@{/admin/categories/list}" class="btn btn-secondary">Cancelar</a>
+
+</div>
 
     <div th:if="${globalError}" class="alert alert-danger mt-3" role="alert">
         <p th:text="${globalError}"></p>

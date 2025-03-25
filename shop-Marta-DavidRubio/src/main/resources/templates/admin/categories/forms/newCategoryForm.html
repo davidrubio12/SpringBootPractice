@@ -15,7 +15,7 @@
     <title>Añadir Nueva Categoria</title>
 </head>
 <body>
-<h1  style="
+<h1 style="
     font-size: 36px;
     color:black;
     font-weight: bold;
@@ -23,8 +23,19 @@
     font-family: Arial, sans-serif;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);"> Formulario para añadir una nueva Categoría</h1>
 <div class="container">
+
     <div class="container">
         <form th:method="post" th:object="${category}" th:action="@{/admin/categories/new}">
+            <div th:if="${#fields.hasGlobalErrors()}">
+                <h2>Se han producido errores</h2>
+                <ul>
+                    <li th:each="error:${#fields.globalErrors()}" th:text="${error}">
+
+                    </li>
+                </ul>
+
+
+            </div>
             <div class="mb-3">
                 <label for="name" class="form-label">Nombre de Categoría: </label>
                 <input type="text" class="form-control" id="name" th:field="*{name}" th:errorclass="is-invalid">
@@ -34,36 +45,38 @@
             </div>
             <div class="mb-3">
                 <label for="description" class="form-label">Descripción del producto: </label>
-                <textarea rows="5" cols="5" class="form-control" id="description" th:field="*{description}" th:errorclass="is-invalid"></textarea>
-                <div th:if="${#fields.hasErrors('description')}" class="invalid-feedback" th:text="${#fields.errors('description')}">
+                <textarea rows="5" cols="5" class="form-control" id="description" th:field="*{description}"
+                          th:errorclass="is-invalid"></textarea>
+                <div th:if="${#fields.hasErrors('description')}" class="invalid-feedback"
+                     th:text="${#fields.errors('description')}">
                     Error.
                 </div>
             </div>
 
 
-<!--            <div class="mb-3">-->
-<!--                <fieldset class="form-group">-->
+            <!--            <div class="mb-3">-->
+            <!--                <fieldset class="form-group">-->
 
-<!--                    <div class="form-check" th:each="category : ${categories}">-->
-<!--                        <input class="form-check-input" type="radio" id="category" th:id="|category-${category.getId()}|" th:field="*{categoryId}" th:value="${category.getId()}" th:errorclass="is-invalid">-->
-<!--                        <label class="form-check-label" for="category" th:for="|category-${category.getId()}|" th:text="${category.getName()}">Categoría</label>-->
-<!--                    </div>-->
+            <!--                    <div class="form-check" th:each="category : ${categories}">-->
+            <!--                        <input class="form-check-input" type="radio" id="category" th:id="|category-${category.getId()}|" th:field="*{categoryId}" th:value="${category.getId()}" th:errorclass="is-invalid">-->
+            <!--                        <label class="form-check-label" for="category" th:for="|category-${category.getId()}|" th:text="${category.getName()}">Categoría</label>-->
+            <!--                    </div>-->
 
-<!--                </fieldset>-->
-<!--                <div th:if="${#fields.hasErrors('categoryId')}" class="invalid-feedback" th:text="${#fields.errors('categoryId')}">-->
-<!--                    Error.-->
-<!--                </div>-->
-<!--            </div>-->
+            <!--                </fieldset>-->
+            <!--                <div th:if="${#fields.hasErrors('categoryId')}" class="invalid-feedback" th:text="${#fields.errors('categoryId')}">-->
+            <!--                    Error.-->
+            <!--                </div>-->
+            <!--            </div>-->
 
             <button type="submit" class="btn btn-primary">Crear nueva categoría</button>
             <button type="button" class="btn btn-primary">
-                <a  th:href="@{/admin/categories/list}" style="color: white;text-decoration: none;">Volver a Categorías</a>
+                <a th:href="@{/admin/categories/list}" style="color: white;text-decoration: none;">Volver a
+                    Categorías</a>
             </button>
         </form>
     </div>
 
 </div>
-
 
 
 </body>

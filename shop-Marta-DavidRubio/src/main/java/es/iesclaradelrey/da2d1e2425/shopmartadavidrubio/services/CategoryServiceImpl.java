@@ -3,22 +3,28 @@ package es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.services;
 
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.dto.admin.NewCategoryDto;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.entities.Category;
+import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.exceptions.CategoryNotFoundException;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.exceptions.admin.CategoryAlreadyExistsException;
+import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.exceptions.admin.CategoryNotEmptyException;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.repositories.CategoryRepository;
+import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.repositories.ProductRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.Optional;
 @Service
 public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
+    private final ProductRepository productRepository;
 
-    public CategoryServiceImpl(CategoryRepository categoryRepository) {
+    public CategoryServiceImpl(CategoryRepository categoryRepository, ProductRepository productRepository) {
         this.categoryRepository = categoryRepository;
+        this.productRepository = productRepository;
     }
 
 
@@ -75,7 +81,18 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id) {
+        if (!categoryRepository.existsById(id)) {
+            throw new CategoryNotFoundException("No existe una categoría con ese ID.");
+        }
+
+
+        if (productRepository.existsByCategoryId(id)) {
+            throw new CategoryNotEmptyException("La categoría no se puede borrar porque tiene productos asociados.");
+        }
+
         categoryRepository.deleteById(id);
     }
+
 }
