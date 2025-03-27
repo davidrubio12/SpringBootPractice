@@ -95,4 +95,28 @@ public class CategoryServiceImpl implements CategoryService {
         categoryRepository.deleteById(id);
     }
 
+    @Transactional
+    @Override
+    public void update(Long id, NewCategoryDto updatedCategory)
+            throws CategoryNotFoundException, CategoryAlreadyExistsException {
+
+
+        Category existingCategory = categoryRepository.findById(id)
+                .orElseThrow(() -> new CategoryNotFoundException("Categoría no encontrada"));
+
+
+        if (!existingCategory.getName().equals(updatedCategory.getName()) &&
+                categoryRepository.existsByName(updatedCategory.getName())) {
+            throw new CategoryAlreadyExistsException("Ya existe una categoría con ese nombre");
+        }
+
+
+        existingCategory.setName(updatedCategory.getName());
+        existingCategory.setDescription(updatedCategory.getDescription());
+
+
+        categoryRepository.save(existingCategory);
+    }
+
+
 }

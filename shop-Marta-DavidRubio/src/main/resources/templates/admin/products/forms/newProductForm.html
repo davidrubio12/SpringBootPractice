@@ -21,6 +21,7 @@
     <form th:method="post" th:object="${product}" th:action="@{/admin/products/new}">
 
       <div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger" role="alert">
+        <h2>Se han producido errores</h2>
         <ul>
           <li th:each="err : ${#fields.globalErrors()}" th:text="${err}"></li>
         </ul>

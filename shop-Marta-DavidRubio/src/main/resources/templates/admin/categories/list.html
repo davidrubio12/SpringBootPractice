@@ -41,7 +41,7 @@
 
 
 
-    <!--crear categoria-->
+
     <div style="margin-bottom: 20px;">
         <a th:href="@{/admin/categories/new}" class="btn btn-primary">Crear nueva categoría</a>
     </div>
@@ -56,6 +56,8 @@
             <th scope="col">Nombre</th>
             <th scope="col">Descripción</th>
             <th scope="col">Acciones</th>
+            <th scope="col">Editar Categoría</th>
+
         </tr>
         </thead>
         <tbody>
@@ -68,6 +70,12 @@
                     Eliminar
                 </a>
             </td>
+            <td>
+                <a th:href="@{/admin/categories/edit/{id}(id=${category.id})}"
+                   class="btn btn-sm btn-primary">Editar</a>
+
+            </td>
+
         </tr>
         </tbody>
     </table>

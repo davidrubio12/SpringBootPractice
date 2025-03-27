@@ -2,6 +2,8 @@ package es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.services;
 
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.dto.admin.NewCategoryDto;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.entities.Category;
+import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.exceptions.CategoryNotFoundException;
+import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.exceptions.admin.CategoryAlreadyExistsException;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.data.domain.Page;
@@ -19,4 +21,7 @@ public interface CategoryService {
     boolean existsByName(@NotNull @NotBlank(message = "Este campo no puede estar vacío") String name);
 
     void deleteById(Long id);
+
+    void update(Long id, NewCategoryDto updatedCategory)
+            throws CategoryNotFoundException, CategoryAlreadyExistsException;
 }

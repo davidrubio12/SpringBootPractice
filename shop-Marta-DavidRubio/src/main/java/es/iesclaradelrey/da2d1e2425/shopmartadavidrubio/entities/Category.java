@@ -20,7 +20,7 @@ public class Category {
     private String name;
     @Column(nullable = false, length = 200)
     private String description;
-    @Column(nullable = false,length = 1000)
+    @Column(length = 1000)
     private String imageUrl;
 
     @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)

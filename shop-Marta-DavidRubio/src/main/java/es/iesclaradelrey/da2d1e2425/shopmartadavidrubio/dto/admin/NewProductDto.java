@@ -27,7 +27,7 @@ public class NewProductDto {
     @Positive(message = "No puede ser nuemro negativo")
     private Integer stockQuantity;
 
-    @NotNull
+    @NotNull(message="Debes seleccionar una categoría")
     private Long categoryId;
 
 

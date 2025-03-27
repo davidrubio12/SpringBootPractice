@@ -26,7 +26,9 @@
 
     <div class="container">
         <form th:method="post" th:object="${category}" th:action="@{/admin/categories/new}">
-            <div th:if="${#fields.hasGlobalErrors()}">
+            <div th:if="${#fields.hasGlobalErrors()}"  class="alert alert-danger" role="alert">
+
+
                 <h2>Se han producido errores</h2>
                 <ul>
                     <li th:each="error:${#fields.globalErrors()}" th:text="${error}">
@@ -53,20 +55,6 @@
                 </div>
             </div>
 
-
-            <!--            <div class="mb-3">-->
-            <!--                <fieldset class="form-group">-->
-
-            <!--                    <div class="form-check" th:each="category : ${categories}">-->
-            <!--                        <input class="form-check-input" type="radio" id="category" th:id="|category-${category.getId()}|" th:field="*{categoryId}" th:value="${category.getId()}" th:errorclass="is-invalid">-->
-            <!--                        <label class="form-check-label" for="category" th:for="|category-${category.getId()}|" th:text="${category.getName()}">Categoría</label>-->
-            <!--                    </div>-->
-
-            <!--                </fieldset>-->
-            <!--                <div th:if="${#fields.hasErrors('categoryId')}" class="invalid-feedback" th:text="${#fields.errors('categoryId')}">-->
-            <!--                    Error.-->
-            <!--                </div>-->
-            <!--            </div>-->
 
             <button type="submit" class="btn btn-primary">Crear nueva categoría</button>
             <button type="button" class="btn btn-primary">

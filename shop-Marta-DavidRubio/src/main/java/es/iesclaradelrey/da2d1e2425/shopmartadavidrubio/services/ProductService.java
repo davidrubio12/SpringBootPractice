@@ -2,6 +2,7 @@ package es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.services;
 
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.dto.admin.NewProductDto;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.entities.Product;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.data.domain.Page;
@@ -24,4 +25,7 @@ public interface ProductService {
 
     boolean existsByName(@NotNull @NotBlank(message = "Este campo no puede estar vacío") String name);
 
+    void update(Long id, @Valid NewProductDto updatedProduct);
+
+    void deleteById(Long id);
 }

@@ -2,6 +2,7 @@ package es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.controllers.admin;
 
 
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.dto.admin.NewCategoryDto;
+import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.entities.Category;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.exceptions.CategoryNotFoundException;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.exceptions.admin.CategoryAlreadyExistsException;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.exceptions.admin.CategoryNotEmptyException;
@@ -36,12 +37,12 @@ public class CategoryAdminController {
 
     @GetMapping("/list")
     public String pageCategories(@RequestParam(defaultValue = "1") Integer pageNumber,
-                        @RequestParam(defaultValue = "1") Integer pageSize,
-                        @RequestParam(defaultValue = "name")String orderBy,
-                        @RequestParam(defaultValue = "asc") String orderDir,
-                        Model model) {
+                                 @RequestParam(defaultValue = "1") Integer pageSize,
+                                 @RequestParam(defaultValue = "name") String orderBy,
+                                 @RequestParam(defaultValue = "asc") String orderDir,
+                                 Model model) {
 
-        Map<String,String> orderFields=new LinkedHashMap<>();
+        Map<String, String> orderFields = new LinkedHashMap<>();
         orderFields.put("name", "Nombre");
         orderFields.put("description", "Descripcion");
         orderFields.put("id", "Id");
@@ -50,7 +51,7 @@ public class CategoryAdminController {
         model.addAttribute("categories", categoryService.findAll(pageNumber, pageSize, orderBy, orderDir));
         model.addAttribute("orderBy", orderBy);
         model.addAttribute("orderDir", orderDir);
-        model.addAttribute("pageSizeOptions", List.of(1,2,3));
+        model.addAttribute("pageSizeOptions", List.of(1, 2, 3));
 
 
         return "admin/categories/list";
@@ -70,7 +71,6 @@ public class CategoryAdminController {
     }
 
 
-
     @PostMapping("/delete/{id}")
     public String deleteCategory(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
@@ -81,8 +81,6 @@ public class CategoryAdminController {
         }
         return "redirect:/admin/categories/list";
     }
-
-
 
 
     @GetMapping("/new")
@@ -107,27 +105,91 @@ public class CategoryAdminController {
             return "admin/categories/forms/newCategoryForm";
         }
 
-        try{
-            if(new Random().nextInt(100)> 70){
+        try {
+            if (new Random().nextInt(100) > 70) {
                 throw new RuntimeException("Error aleaterio");
-            };
+            }
+            ;
             categoryService.create(newCategory);
-        }catch(CategoryAlreadyExistsException e){
-            bindingResult.rejectValue("name",null,"Error al crear la categoría: "+
+        } catch (CategoryAlreadyExistsException e) {
+            bindingResult.rejectValue("name", null, "Error al crear la categoría: " +
                     e.getMessage());
 
             return "admin/categories/forms/newCategoryForm";
-        }catch (Exception e) {
+        } catch (Exception e) {
 
             bindingResult.reject("globalError", "Error inesperado al crear la categoría: " + e.getMessage());
 
             return "admin/categories/forms/newCategoryForm";
         }
 
-        redirectAttributes.addFlashAttribute("successMessage","Categoría creada correctamente");
+        redirectAttributes.addFlashAttribute("successMessage", "Categoría creada correctamente");
 
 
         return "redirect:/admin/categories/list";
     }
 
+    @GetMapping("/edit/{id}")
+    public String showEditForm(@PathVariable Long id, Model model) {
+        try {
+            Category category = categoryService.findById(id)
+                    .orElseThrow(() -> new CategoryNotFoundException("Categoría no encontrada"));
+
+
+            NewCategoryDto categoryDto = new NewCategoryDto();
+            categoryDto.setName(category.getName());
+            categoryDto.setDescription(category.getDescription());
+
+            model.addAttribute("category", categoryDto);
+            model.addAttribute("categoryId", id);
+
+        } catch (CategoryNotFoundException e) {
+
+            model.addAttribute("globalError", e.getMessage());
+            return "redirect:/admin/categories/list";
+        }
+
+        return "admin/categories/forms/editCategoryForm";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String updateCategory(
+            @PathVariable Long id,
+            @Valid @ModelAttribute("category") NewCategoryDto updatedCategory,
+            BindingResult bindingResult,
+            Model model,
+            RedirectAttributes redirectAttributes) {
+        bindingResult.getAllErrors().forEach(error -> {
+            System.out.println(error.getDefaultMessage());
+        });
+
+        model.addAttribute("categoryId", id);
+        if (bindingResult.hasErrors()) {
+
+            return "admin/categories/forms/editCategoryForm";
+        }
+
+        try {
+            if (new Random().nextInt(100) > 70) {
+                throw new RuntimeException("Error aleaterio");
+            }
+            ;
+            categoryService.update(id, updatedCategory);
+            redirectAttributes.addFlashAttribute("successMessage", "Categoría actualizada correctamente");
+            return "redirect:/admin/categories/list";
+
+        } catch (CategoryNotFoundException e) {
+
+            bindingResult.reject("globalError", e.getMessage());
+        } catch (CategoryAlreadyExistsException e) {
+            bindingResult.rejectValue("name", "category.name", e.getMessage());
+        } catch (Exception e) {
+            bindingResult.reject("globalError", "Error inesperado: " + e.getMessage());
+        }
+
+        model.addAttribute("categoryId", id);
+        return "admin/categories/forms/editCategoryForm";
+    }
 }
+
+

@@ -1,7 +1,7 @@
-INSERT INTO category (id, name, description, image_url)
-VALUES (1, 'Cartas Sueltas', 'Venta de cartas sueltas', '/images/796545.jpg'),
-       (2, 'Sobres', 'Venta de sobres', '/images/sobres.png'),
-       (3, 'Accesorios', 'Venta de Accesorios', '/images/accesorios.png');
+INSERT INTO category (name, description, image_url)
+VALUES ('Cartas Sueltas', 'Venta de cartas sueltas', '/images/796545.jpg'),
+       ('Sobres', 'Venta de sobres', '/images/sobres.png'),
+       ('Accesorios', 'Venta de Accesorios', '/images/accesorios.png');
 INSERT INTO product (name, description, price, image_url, category_id,stock_quantity)
 VALUES ('Black Lotus', 'One of the most powerful cards in Magic, grants three mana of any color.', 25000.00,
         'https://i.ebayimg.com/00/s/MTYwMFgxMTU2/z/2pgAAOSwoaNePCCr/$_57.JPG?set_id=8800005007', 1,3),

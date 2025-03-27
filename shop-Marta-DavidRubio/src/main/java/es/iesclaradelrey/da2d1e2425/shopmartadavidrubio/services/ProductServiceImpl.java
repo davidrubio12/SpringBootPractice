@@ -3,6 +3,8 @@ package es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.services;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.dto.admin.NewProductDto;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.entities.Category;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.entities.Product;
+import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.exceptions.CategoryNotFoundException;
+import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.exceptions.ProductNotFoundException;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.exceptions.admin.ProductAlreadyExistsException;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.repositories.CategoryRepository;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.repositories.ProductRepository;
@@ -12,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -93,6 +96,45 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public boolean existsByName(String name) {
         return productRepository.existsByName(name);
+    }
+
+
+    @Override
+    public void update(Long id, NewProductDto updatedProduct)
+            throws ProductNotFoundException, ProductAlreadyExistsException, CategoryNotFoundException {
+
+
+        Product existingProduct = productRepository.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException("Producto no encontrado con id: " + id));
+
+
+        if (!existingProduct.getName().equals(updatedProduct.getName()) &&
+                productRepository.existsByName(updatedProduct.getName())) {
+            throw new ProductAlreadyExistsException("Ya existe un producto con ese nombre");
+        }
+
+
+        Category category = categoryRepository.findById(updatedProduct.getCategoryId())
+                .orElseThrow(() -> new CategoryNotFoundException("Categoría no encontrada con id: " + updatedProduct.getCategoryId()));
+
+
+        existingProduct.setName(updatedProduct.getName());
+        existingProduct.setDescription(updatedProduct.getDescription());
+        existingProduct.setPrice(updatedProduct.getPrice());
+        existingProduct.setCategory(category);
+
+
+        productRepository.save(existingProduct);
+    }
+
+    @Override
+    @Transactional
+    public void deleteById(Long id) {
+        if (!productRepository.existsById(id)) {
+            throw new ProductNotFoundException("No existe un producto con ese ID.");
+        }
+
+        productRepository.deleteById(id);
     }
 
 }
