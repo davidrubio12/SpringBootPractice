@@ -187,7 +187,7 @@ public class CategoryAdminController {
             bindingResult.reject("globalError", "Error inesperado: " + e.getMessage());
         }
 
-        model.addAttribute("categoryId", id);
+
         return "admin/categories/forms/editCategoryForm";
     }
 }

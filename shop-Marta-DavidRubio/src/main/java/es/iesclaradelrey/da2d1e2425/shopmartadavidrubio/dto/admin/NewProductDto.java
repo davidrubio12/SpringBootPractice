@@ -23,7 +23,7 @@ public class NewProductDto {
     @Positive(message = "No puedo ser numero negativo")
     private Double price;
 
-    @NotNull
+    @NotBlank
     @Positive(message = "No puede ser nuemro negativo")
     private Integer stockQuantity;
 

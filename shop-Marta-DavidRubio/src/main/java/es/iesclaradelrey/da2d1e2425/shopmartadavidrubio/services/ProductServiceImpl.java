@@ -31,13 +31,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
-
     @Override
     public Optional<Product> findById(long id) {
 
-       return productRepository.findById(id);
+        return productRepository.findById(id);
     }
-
 
 
     @Override
@@ -55,29 +53,23 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
-
     @Override
-    public Page <Product> findAll(Integer pageNumber, Integer pageSize,String orderBy,String orderDir){
+    public Page<Product> findAll(Integer pageNumber, Integer pageSize, String orderBy, String orderDir) {
         Sort.Direction direction = orderDir.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
-        Pageable pageRequest = PageRequest.of(pageNumber-1, pageSize, Sort.by(direction, orderBy));
+        Pageable pageRequest = PageRequest.of(pageNumber - 1, pageSize, Sort.by(direction, orderBy));
         return productRepository.findAll(pageRequest);
     }
 
     @Override
     public void create(NewProductDto newProductDto) {
 
-        if(existsByName(newProductDto.getName())){
+        if (existsByName(newProductDto.getName())) {
             throw new ProductAlreadyExistsException("Ya existe un producto con ese nombre"
                     + newProductDto.getName());
         }
 
         Category category = categoryRepository.findById(newProductDto.getCategoryId())
                 .orElseThrow(() -> new EntityNotFoundException("Categoría no encontrada "));
-
-
-
-
-
 
 
         Product product = new Product();
@@ -88,7 +80,6 @@ public class ProductServiceImpl implements ProductService {
         product.setStockQuantity(newProductDto.getStockQuantity());
         product.setCategory(category);
         productRepository.save(product);
-
 
 
     }

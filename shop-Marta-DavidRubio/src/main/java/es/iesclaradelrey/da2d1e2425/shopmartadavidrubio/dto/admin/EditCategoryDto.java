@@ -12,7 +12,6 @@ import lombok.ToString;
 @Setter
 @ToString
 public class EditCategoryDto {
-    //Creo que podemos usar el mismo que NewCategoryDto,es igual
 
     @NotNull
     @Size(min = 1, max = 50)

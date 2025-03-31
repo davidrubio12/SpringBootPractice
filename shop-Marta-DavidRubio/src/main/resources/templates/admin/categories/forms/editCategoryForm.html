@@ -30,9 +30,9 @@
   <div th:if="${globalError}" class="alert alert-danger">
     <p th:text="${globalError}"></p>
   </div>
-
+<!--action no necesario en este caso-->
   <div class="container">
-    <form th:method="post" th:object="${category}" th:action="@{/admin/categories/edit/{id}(id=${categoryId})}">
+    <form th:method="post" th:object="${category}" >
       <div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger" role="alert">
         <h2>Se han producido errores</h2>
         <ul>
