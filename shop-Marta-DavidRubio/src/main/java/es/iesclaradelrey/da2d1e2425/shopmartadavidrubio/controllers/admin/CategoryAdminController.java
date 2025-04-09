@@ -93,6 +93,7 @@ public class CategoryAdminController {
         return modelAndView;
     }
 
+
     @PostMapping("/new")
     public String newCategory(@Valid @ModelAttribute("category") NewCategoryDto newCategory, BindingResult bindingResult, Model model,
                               RedirectAttributes redirectAttributes) {
