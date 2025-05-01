@@ -1,6 +1,18 @@
 package es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.controllers.security;
 
 
+import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.dto.api.JwtTokensDto;
+import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.dto.api.LoginUserDto;
+import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.dto.api.RegisterUserDto;
+import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.services.AppUserService;
+import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.services.AuthService;
+import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.services.JwtService;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/v1/auth")
 
 public class AuthController {
 //    Crear un controlador "AuthController", con los métodos (de momento vacíos)
@@ -16,4 +28,29 @@ public class AuthController {
 //    No necesita DTO de entrada.
 //    Puede que sea interesante implementar un método revoque(). No recibiría nada, pero revocaría el token recibido.
 
+    private final AuthService authService;
+
+
+    public AuthController(AppUserService appUserService, JwtService jwtService, AuthService authService) {
+        this.authService = authService;
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<JwtTokensDto> register(@RequestBody RegisterUserDto registerUserDto){
+        return ResponseEntity.ok(authService.register(registerUserDto));
+    }
+    @PostMapping("/login")
+    public ResponseEntity<JwtTokensDto> login(@RequestBody LoginUserDto loginUserDto){
+        return ResponseEntity.ok(authService.login(loginUserDto));
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<JwtTokensDto> refresh(@RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader) {
+        return ResponseEntity.ok(authService.refresh(authHeader));
+    }
+
+    @PostMapping("/revoque")
+    public ResponseEntity<Void> revoke(){
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

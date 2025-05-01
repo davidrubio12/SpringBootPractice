@@ -8,6 +8,9 @@ import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.repositories.AppUserRepo
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class AppUserServiceImpl implements AppUserService{
     private final AppUserRepository appUserRepository;
@@ -33,6 +36,21 @@ public class AppUserServiceImpl implements AppUserService{
                 .build();
 
         return appUserRepository.save(appUser);
+    }
+
+    @Override
+    public Optional<AppUser> findByEmail(String email) {
+        return appUserRepository.findByEmail((email));
+    }
+
+    @Override
+    public AppUser save(AppUser user) {
+        return appUserRepository.save(user);
+    }
+
+    @Override
+    public List<AppUser> findAll() {
+        return appUserRepository.findAll();
     }
 
 //    @Override
