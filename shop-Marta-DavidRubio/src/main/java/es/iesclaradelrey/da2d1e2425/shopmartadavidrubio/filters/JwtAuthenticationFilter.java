@@ -1,10 +1,13 @@
 package es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.filters;
 
+import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.Utils.ProblemDetailsUtils;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.services.JwtService;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,39 +30,42 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException {
+                                    @NonNull  HttpServletResponse response,
+                                   @NonNull FilterChain filterChain) throws ServletException, IOException {
 
         //los filtros se ejecutan para todas las peticiones, asiq delimitar
 
         //extraer q petición me estan haciendo.
 
         String pathRequest = request.getRequestURI();
-        if(pathRequest.contains("/api/v1/tasks")){//mirar nuestra URL.Todo lo que queramos q este protegido
-            String authHeader = request.getHeader("Authorization");
-            if(authHeader == null || !authHeader.startsWith("Bearer ")){
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
-                return;
-            }
+        if(pathRequest.contains("/api/v1/tasks")){//mirar nuestra URL.Todo lo que queramos q este protegido
+//
             // extraer el token
-            String token = authHeader.substring(7);
+//            String token = authHeader.substring(7);
             //Validar el token
             try{
-                jwtService.validateAccessToken(token);
+
+                String authHeader = request.getHeader("Authorization");
+
+                if(authHeader == null || !authHeader.startsWith("Bearer ")) {
+
+                     throw new JwtException("Authorization header missing or incorrect.");
+                }
+
+
+                String token = authHeader.substring(7);
 
                 String username = jwtService.extractUsername(token);
 
+
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-
-                Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails,null);
-
+                Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
-
             }catch (Exception e){
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                //TODO : mirar si es así -> response.getWriter().println(e.getMessage());
+                String errorMessage = String.format("Error validating access token: %s", e.getMessage());
+                ProblemDetailsUtils.writeUnauthorized(response, request, errorMessage);
                 return;
             }
 
@@ -70,3 +76,5 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     }
 }
+
+

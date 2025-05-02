@@ -35,6 +35,7 @@ public class AppUserServiceImpl implements AppUserService{
                 .lastName(registerUserDto.getLastName())
                 .build();
 
+        // Guardar y devolver el usuario en el repositorio.
         return appUserRepository.save(appUser);
     }
 
