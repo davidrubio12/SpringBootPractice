@@ -54,3 +54,14 @@ create or replace table rating
         foreign key (product_id) references product (id)
 );
 
+
+create table app_users
+(
+
+    user_id    bigint primary key auto_increment,
+    first_name varchar(200) not null,
+    last_name  varchar(200) not null,
+    email      varchar(200) not null unique,
+    password   varchar(200) not null
+
+);
