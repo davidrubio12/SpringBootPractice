@@ -29,7 +29,7 @@ public class AppProductController {
     }
 
     @GetMapping("/find")
-    public ResponseEntity<Page<Product>> find(@RequestParam String product){
+    public ResponseEntity<Page<Product>> find(@RequestParam ( "search") String product){
 
         Page <Product> products = productService.findAll(1,10,"id","asc");
 
