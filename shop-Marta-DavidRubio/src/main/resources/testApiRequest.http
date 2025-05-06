@@ -1,0 +1,13 @@
+### GET request to example server
+GET https://examples.http-client.intellij.net/get
+    ?generated-in=IntelliJ IDEA
+
+###
+
+POST http://10.0.2.2:8000/home/app/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "username": "testuser@example.com",
+  "password": "testpassword"
+}

@@ -39,4 +39,5 @@ VALUES ('John Doe', 'Amazing product, exceeded expectations!', 4.5, 'https://exa
         '2025-07-01 20:54:15', 1);
 
 
-
+INSERT INTO app_users (first_name, last_name, email, password)
+VALUES ('John', 'Doe', 'testuser@example.com', 'testpassword');
