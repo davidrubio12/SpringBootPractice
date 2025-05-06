@@ -1,4 +1,4 @@
-package es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.controllers.security;
+package es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.appcontrollers;
 
 
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.dto.api.JwtTokensDto;
@@ -12,9 +12,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/api/app/v1/auth")
 
-public class AuthController {
+public class AppAuthController {
 //    Crear un controlador "AuthController", con los métodos (de momento vacíos)
 //
 //    Register. Este método necesita:
@@ -31,7 +31,7 @@ public class AuthController {
     private final AuthService authService;
 
 
-    public AuthController(AppUserService appUserService, JwtService jwtService, AuthService authService) {
+    public AppAuthController(AppUserService appUserService, JwtService jwtService, AuthService authService) {
         this.authService = authService;
     }
 

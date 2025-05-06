@@ -26,5 +26,10 @@ public class CategoryController extends BaseController {
         return new ModelAndView("home", "categories", categories);
     }
 
+    @GetMapping("/login-personalizado")
+    public String login() {
+        return "login-personalizado";
+    }
+
 
 }

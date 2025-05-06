@@ -39,7 +39,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String pathRequest = request.getRequestURI();
 
-        if(pathRequest.contains("/api/v1/tasks")){//mirar nuestra URL.Todo lo que queramos q este protegido
+        if(pathRequest.contains("/api/app/v1/products")){//mirar nuestra URL.Todo lo que queramos q este protegido
 //
             // extraer el token
 //            String token = authHeader.substring(7);

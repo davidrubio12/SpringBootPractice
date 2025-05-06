@@ -16,7 +16,7 @@ public class ApiSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
         //el método "securityMatcher", que hace que la cadena generada solo aplique en cierta ruta.
-        http.securityMatcher("/api/**");
+        http.securityMatcher("/api/app/**");
 
         http.csrf(AbstractHttpConfigurer::disable);
 
@@ -30,9 +30,9 @@ public class ApiSecurityConfig {
         //el método "authorizeHttpRequests" para diferenciar los dos tipos de servicios, los de autorización (no autenticados) y los de tareas (autenticados).
 
         http.authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/v1/auth/login").permitAll()
-                .requestMatchers("/api/v1/tasks/**").authenticated()
-                .anyRequest().permitAll());
+                .requestMatchers("/api/app/v1/auth/**").permitAll()
+
+                .anyRequest().authenticated());
         //Añade el filtro de autorización que procesará las cabeceras de las peticiones para buscar el token JWT y validarlo.
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

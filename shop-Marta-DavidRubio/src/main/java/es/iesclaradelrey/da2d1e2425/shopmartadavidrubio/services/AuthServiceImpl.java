@@ -5,9 +5,12 @@ import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.dto.api.JwtTokensDto;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.dto.api.LoginUserDto;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.dto.api.RegisterUserDto;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.entities.AppUser;
+import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.repositories.AppUserRepository;
 import io.jsonwebtoken.JwtException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,12 +21,14 @@ public class AuthServiceImpl implements AuthService {
     private final AppUserService appUserService;
     private final JwtService jwtService;
     public final AuthenticationManager authenticationManager;
+    private final AppUserRepository appUserRepository;
 
 
-    public AuthServiceImpl(AppUserService appUserService, JwtService jwtService, AuthenticationManager authenticationManager) {
+    public AuthServiceImpl(AppUserService appUserService, JwtService jwtService, AuthenticationManager authenticationManager, AppUserRepository appUserRepository) {
         this.appUserService = appUserService;
         this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;
+        this.appUserRepository = appUserRepository;
     }
 
     @Override
@@ -83,5 +88,19 @@ public class AuthServiceImpl implements AuthService {
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build();
+    }
+
+    @Override
+    public long getCurrentAppUserId() {
+        return this.getCurrentAppUser().getUserId();
+        //TODO mirar a partir de aquí(taskServiceImpl-> lo nuestro será otra cosa)
+    }
+
+    @Override
+    public AppUser getCurrentAppUser() {
+
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        //Buscar el usuario en el repositorio
+        return appUserRepository.findByEmail(userName).orElseThrow(()-> new UsernameNotFoundException(String.format("User %s not found", userName)));
     }
 }
