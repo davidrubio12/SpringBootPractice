@@ -22,6 +22,12 @@ public class AppUser {
 
     @Size(max = 200)
     @NotNull
+    @Column(name = "username", nullable = false, length = 200)
+    private String username;
+
+
+    @Size(max = 200)
+    @NotNull
     @Column(name = "first_name", nullable = false, length = 200)
     private String firstName;
 

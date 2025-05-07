@@ -1,6 +1,7 @@
 package es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.dto.api;
 
 
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -17,7 +18,7 @@ public class ProductDto {
     @NotBlank(message = "No puede estar vacio")
     private String name;
 
-    //Descripción,Precio,url de la imagen
+
 
     @NotNull
     private String description;
@@ -27,6 +28,20 @@ public class ProductDto {
     private Double price;
 
     @NotNull
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class ProductDto {
+
+    private Long id;
+    private String name;
+    private String description;
+    private Double price;
+
     private String imageUrl;
 
+}
 }

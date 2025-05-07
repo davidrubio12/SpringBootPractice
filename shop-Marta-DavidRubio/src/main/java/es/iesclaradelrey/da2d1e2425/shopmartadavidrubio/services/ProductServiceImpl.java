@@ -19,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collection;
 import java.util.Optional;
 
+
+
 @Service
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
@@ -127,5 +129,28 @@ public class ProductServiceImpl implements ProductService {
 
         productRepository.deleteById(id);
     }
+
+    @Override
+    public Page<Product> findWithFilters(String search, Long categoryId, String sortBy, String sortDir, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size,
+                sortDir.equalsIgnoreCase("desc") ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending());
+
+        if ((search == null || search.isBlank()) && categoryId == null) {
+            return productRepository.findAll(pageable);
+        }
+
+        if (search != null && !search.isBlank() && categoryId != null) {
+            return productRepository.findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCaseAndCategory_Id(
+                    search, search, categoryId, pageable);
+        }
+
+        if (search != null && !search.isBlank()) {
+            return productRepository.findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(
+                    search, search, pageable);
+        }
+
+        return productRepository.findByCategory_Id(categoryId, pageable);
+    }
+
 
 }
