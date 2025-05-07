@@ -119,12 +119,12 @@ public class CartServiceImpl implements CartService {
     }
 
 
+
     @Override
     public CartDto getCartForCurrentUser() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         AppUser user = appUserRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
-
 
         List<Cart> cartItems = cartRepository.findByUserId(user.getUserId());
 
@@ -146,6 +146,7 @@ public class CartServiceImpl implements CartService {
 
         return cartDto;
     }
+
 
     @Override
     public Optional<AppUser> findByUsername(String username) {
