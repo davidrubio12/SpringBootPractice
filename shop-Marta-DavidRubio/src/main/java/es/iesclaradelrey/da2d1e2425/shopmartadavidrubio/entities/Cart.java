@@ -18,6 +18,12 @@ public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private AppUser user;
+
+
     @Column(nullable = false, length = 100)
     private int quantity;
     @Column(nullable = false)

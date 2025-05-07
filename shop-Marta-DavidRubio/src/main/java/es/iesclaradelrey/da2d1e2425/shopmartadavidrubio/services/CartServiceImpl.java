@@ -126,7 +126,7 @@ public class CartServiceImpl implements CartService {
         AppUser user = appUserRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
 
-        List<Cart> cartItems = cartRepository.findByUserId(user.getUserId());
+        List<Cart> cartItems = cartRepository.findByUser(user);
 
         List<CartItemDto> items = cartItems.stream().map(item -> {
             CartItemDto dto = new CartItemDto();
