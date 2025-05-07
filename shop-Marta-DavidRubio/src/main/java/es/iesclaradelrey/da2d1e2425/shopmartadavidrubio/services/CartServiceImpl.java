@@ -44,12 +44,18 @@ public class CartServiceImpl implements CartService {
     @Override
     public void add(Long id, int quantity) {
 
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        AppUser user = appUserRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+
         Product product = productRepository
                 .findById(id)
                 .orElseThrow(() -> new ProductNotFoundException("No existe el producto con código: "+id));
         Cart cart= cartRepository
                 .findByProductId(id)
                 .orElse(new Cart(0, product));
+        //Asignar el usuario si es nuevo
+        cart.setUser(user);
 
         cart.setQuantity(cart.getQuantity() + quantity);
 
@@ -59,8 +65,8 @@ public class CartServiceImpl implements CartService {
 
             throw new NotEnoughQuantityException("No hay suficientes unidades. En total solo se pueden pedir: " + product.getStockQuantity()+ " unidades");//hacer nuestra excepción
         }
-
-
+    //fecha actualizar
+        cart.setModified(LocalDateTime.now());
 
         cartRepository.save(cart);
 
