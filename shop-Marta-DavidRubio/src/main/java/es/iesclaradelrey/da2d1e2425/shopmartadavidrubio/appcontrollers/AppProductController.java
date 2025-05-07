@@ -34,6 +34,9 @@ public class AppProductController {
     // filtrada por texto y por categoría,
     // y ordenada por distintos atributos (como precio o nombre).
     @GetMapping("/find")
+
+    public ResponseEntity<Page<Product>> find(@RequestParam ( "search") String product){
+
     public ResponseEntity<Page<ProductDto>> find(@RequestParam(defaultValue = "") String search,
                                                  @RequestParam(required = false) Long cat,
                                                  @RequestParam(defaultValue = "name") String sortBy,
@@ -41,8 +44,10 @@ public class AppProductController {
                                                  @RequestParam(defaultValue = "0") int pageNumber,
                                                  @RequestParam(defaultValue = "10") int pageSize){
 
+
         Page<Product> products = productService.findWithFilters(search, cat, sortBy, sortDir, pageNumber, pageSize);
         Page<ProductDto> result = products.map(product -> modelMapper.map(product, ProductDto.class));
         return ResponseEntity.ok(result);
     }
+}
 }
