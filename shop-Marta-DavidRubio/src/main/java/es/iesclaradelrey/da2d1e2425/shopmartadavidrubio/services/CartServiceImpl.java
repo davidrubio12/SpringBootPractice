@@ -1,28 +1,37 @@
 package es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.services;
 
+import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.dto.api.CartDto;
+import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.dto.api.CartItemDto;
+import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.entities.AppUser;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.entities.Cart;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.entities.Product;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.exceptions.NotEnoughQuantityException;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.exceptions.ProductNotFoundException;
+import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.repositories.AppUserRepository;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.repositories.CartRepository;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.repositories.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 @Service
 public class CartServiceImpl implements CartService {
     private final CartRepository cartRepository;
     private final ProductRepository productRepository;
+    private final AppUserRepository appUserRepository;
 
-    public CartServiceImpl(CartRepository cartRepository, ProductRepository productRepository) {
+    public CartServiceImpl(CartRepository cartRepository, ProductRepository productRepository, AppUserRepository appUserRepository) {
         this.cartRepository = cartRepository;
         this.productRepository = productRepository;
+        this.appUserRepository = appUserRepository;
     }
 
 
@@ -108,5 +117,40 @@ public class CartServiceImpl implements CartService {
     public void deleteAll() {
         cartRepository.deleteAll();
     }
+
+
+    @Override
+    public CartDto getCartForCurrentUser() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        AppUser user = appUserRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+
+
+        List<Cart> cartItems = cartRepository.findByUserId(user.getUserId());
+
+        List<CartItemDto> items = cartItems.stream().map(item -> {
+            CartItemDto dto = new CartItemDto();
+            dto.setProductId(item.getProduct().getId());
+            dto.setProductName(item.getProduct().getName());
+            dto.setImageUrl(item.getProduct().getImageUrl());
+            dto.setUnitPrice(item.getProduct().getPrice());
+            dto.setQuantity(item.getQuantity());
+            dto.setSubtotal(item.getQuantity() * item.getProduct().getPrice());
+            return dto;
+        }).toList();
+
+        CartDto cartDto = new CartDto();
+        cartDto.setItems(items);
+        cartDto.setTotalQuantity(items.stream().mapToInt(CartItemDto::getQuantity).sum());
+        cartDto.setTotalPrice(items.stream().mapToDouble(CartItemDto::getSubtotal).sum());
+
+        return cartDto;
+    }
+
+    @Override
+    public Optional<AppUser> findByUsername(String username) {
+        return Optional.empty();
+    }
+
 
 }

@@ -1,5 +1,6 @@
 package es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.services;
 
+import aj.org.objectweb.asm.commons.Remapper;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.dto.admin.NewProductDto;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.entities.Product;
 import jakarta.validation.Valid;
@@ -28,4 +29,6 @@ public interface ProductService {
     void update(Long id, @Valid NewProductDto updatedProduct);
 
     void deleteById(Long id);
+
+   Page <Product> findWithFilters(String search, Long cat, String sortBy, String sortDir, int pageNumber, int pageSize);
 }

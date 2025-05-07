@@ -19,6 +19,7 @@ import javax.naming.OperationNotSupportedException;
 @RestController
 @RequestMapping("/api/app/v1/products")
 public class AppProductController {
+
     private final ProductService productService;
     private final ModelMapper modelMapper;
 
@@ -28,11 +29,20 @@ public class AppProductController {
         this.modelMapper = modelMapper;
     }
 
+
+    //permitir a la app Android buscar productos de forma paginada,
+    // filtrada por texto y por categoría,
+    // y ordenada por distintos atributos (como precio o nombre).
     @GetMapping("/find")
-    public ResponseEntity<Page<Product>> find(@RequestParam String product){
+    public ResponseEntity<Page<ProductDto>> find(@RequestParam(defaultValue = "") String search,
+                                                 @RequestParam(required = false) Long cat,
+                                                 @RequestParam(defaultValue = "name") String sortBy,
+                                                 @RequestParam(defaultValue = "asc") String sortDir,
+                                                 @RequestParam(defaultValue = "0") int pageNumber,
+                                                 @RequestParam(defaultValue = "10") int pageSize){
 
-        Page <Product> products = productService.findAll(1,10,"id","asc");
-
-        return ResponseEntity.ok(products);
+        Page<Product> products = productService.findWithFilters(search, cat, sortBy, sortDir, pageNumber, pageSize);
+        Page<ProductDto> result = products.map(product -> modelMapper.map(product, ProductDto.class));
+        return ResponseEntity.ok(result);
     }
 }
