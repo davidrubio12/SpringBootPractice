@@ -3,9 +3,7 @@ package es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.appcontrollers;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.dto.api.CartDto;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.services.CartService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/app/v1/cart")
@@ -17,12 +15,33 @@ public class AppCartController {
         this.cartService = cartService;
     }
 
-    //permitir que cada usuario vea,
-    // modifique y vacíe su propio carrito, no el de otros.
+
     @GetMapping
     public ResponseEntity<CartDto> getCart() {
         CartDto cart = cartService.getCartForCurrentUser();
         return ResponseEntity.ok(cart);
     }
+
+    @PostMapping("/{productId}")
+    public CartDto addOneProductToCart(@PathVariable Long productId) {
+        return cartService.addOneProductToCart(productId);
+    }
+
+    @PostMapping("/{productId}/{count}")
+    public CartDto addProductToCart(@PathVariable Long productId, @PathVariable int quantity) {
+        return cartService.addProductToCart(productId, quantity);
+    }
+    @DeleteMapping("/{productId}")
+    public CartDto removeProductFromCart(@PathVariable Long productId) {
+        return cartService.removeProductFromCart(productId);
+    }
+    @DeleteMapping
+    public CartDto clearCart() {
+        return cartService.clearCart();
+    }
+
+
+
+
 
 }

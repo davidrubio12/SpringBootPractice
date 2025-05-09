@@ -13,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -20,8 +21,27 @@ import java.io.IOException;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
+
+    private static final String AUTH_HEADER = "Authorization";
+    private static final String BEARER_PREFIX = "Bearer ";
+
+    private static final String PROTECTED_PATH = "/api/app/v1/cart/**";
+    private static final String PROTECTED_PATH_PRODUCTS = "/api/app/v1/product/**";
+
+
+    private static final AntPathRequestMatcher protectedPathMatcher = new AntPathRequestMatcher(PROTECTED_PATH);
+    private static final AntPathRequestMatcher protectedPathMatcherProduct = new AntPathRequestMatcher(PROTECTED_PATH_PRODUCTS);
+
+
+
+    // Añadimos varias rutas protegidas
+//    private static final AntPathRequestMatcher[] protectedMatchers = {
+//            new AntPathRequestMatcher("/home/app/api/app/v1/cart/**"),
+//            new AntPathRequestMatcher("/home/app/api/app/v1/product/**")
+//    };
 
     public JwtAuthenticationFilter(JwtService jwtService, UserDetailsService userDetailsService) {
         this.jwtService = jwtService;
@@ -30,51 +50,41 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
-                                    @NonNull  HttpServletResponse response,
-                                   @NonNull FilterChain filterChain) throws ServletException, IOException {
+                                    @NonNull HttpServletResponse response,
+                                    @NonNull FilterChain filterChain) throws ServletException, IOException {
 
-        //los filtros se ejecutan para todas las peticiones, asiq delimitar
+     if(protectedPathMatcher.matches(request) || protectedPathMatcherProduct.matches(request)) {
+         try {
 
-        //extraer q petición me estan haciendo.
-
-        String pathRequest = request.getRequestURI();
-
-        if(pathRequest.contains("/api/app/v1/products")){//mirar nuestra URL.Todo lo que queramos q este protegido
-//
-            // extraer el token
-//            String token = authHeader.substring(7);
-            //Validar el token
-            try{
-
-                String authHeader = request.getHeader("Authorization");
-
-                if(authHeader == null || !authHeader.startsWith("Bearer ")) {
-
-                     throw new JwtException("Authorization header missing or incorrect.");
-                }
+             String authHeader = request.getHeader(AUTH_HEADER);
 
 
-                String token = authHeader.substring(7);
-
-                String username = jwtService.extractUsername(token);
-
-
-                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-                Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-
-            }catch (Exception e){
-                String errorMessage = String.format("Error validating access token: %s", e.getMessage());
-                ProblemDetailsUtils.writeUnauthorized(response, request, errorMessage);
-                return;
-            }
+             if (authHeader == null || !authHeader.startsWith(BEARER_PREFIX)) {
+                 throw new JwtException("Authorization header missing or incorrect.");
+             }
 
 
-        }
+             String token = authHeader.substring(7);
+
+
+             jwtService.validateAccessToken(token);
+
+
+             String username = jwtService.extractUsername(token);
+
+             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+             Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+             SecurityContextHolder.getContext().setAuthentication(authentication);
+         } catch (Exception e) {
+
+             String errorMessage = String.format("Error validating access token: %s", e.getMessage());
+             ProblemDetailsUtils.writeUnauthorized(response, request, errorMessage);
+             // Se "corta" la cadena de filtros, al no llamar a filterChain.doFilter
+             return;
+         }
+     }
 
         filterChain.doFilter(request, response);
-
     }
 }
-
-

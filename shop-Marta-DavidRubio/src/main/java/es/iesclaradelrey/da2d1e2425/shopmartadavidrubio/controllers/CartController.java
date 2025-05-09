@@ -1,6 +1,11 @@
 package es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.controllers;
 
+import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.dto.api.AddToCartDto;
+import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.exceptions.NotEnoughQuantityException;
+import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.exceptions.ProductNotFoundException;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.services.CartService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -48,5 +53,21 @@ public class CartController extends BaseController {
         return "forward:"+returnUrl;
 
     }
+
+    @PostMapping("/api/add-to-cart")
+    @ResponseBody
+    public ResponseEntity<String> addToCartViaApi(@RequestBody AddToCartDto addToCartDto) {
+        try {
+            cartService.add(addToCartDto.getProductId(), addToCartDto.getQuantity());
+            return ResponseEntity.ok("Producto añadido correctamente al carrito.");
+        } catch (ProductNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (NotEnoughQuantityException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error inesperado: " + e.getMessage());
+        }
+    }
+
 
 }
