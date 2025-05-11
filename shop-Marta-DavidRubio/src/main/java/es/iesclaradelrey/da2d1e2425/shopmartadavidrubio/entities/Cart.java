@@ -6,44 +6,38 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "cart", uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "product_id"}))
+@Table(name = "cart", uniqueConstraints = @UniqueConstraint(columnNames = {"product_id"}))
 public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private AppUser user;
 
+
     @Column(nullable = false, length = 100)
     private int quantity;
-
     @Column(nullable = false)
     private LocalDateTime date;
-
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime modified;
-
     @Column(nullable = false, length = 200)
     private String productName;
-
     @Column(nullable = false, length = 100)
     private Double price;
-
     @Column(nullable = false, length = 1000)
     private String imageUrl;
+
 
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)

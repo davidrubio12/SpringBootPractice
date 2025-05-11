@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -20,6 +18,11 @@ public class AppUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", nullable = false)
     private Long userId;
+
+    @Size(max = 200)
+    @NotNull
+    @Column(name = "username", nullable = false, length = 200)
+    private String username;
 
 
     @Size(max = 200)
@@ -42,12 +45,13 @@ public class AppUser {
     @Column(name = "password", nullable = false, length = 200)
     private String password;
 
+//    @Enumerated(EnumType.STRING)
+//    private Role role;
+//
+//    private boolean enabled = true;
+
     //Relacion
-
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Cart> cartLines = new ArrayList<>();
-
-
+    private List<Task> tasks;
 
 }

@@ -6,20 +6,19 @@ import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.entities.AppUser;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.entities.Cart;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.entities.Product;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.exceptions.NotEnoughQuantityException;
-import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.exceptions.ProblemDetailException;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.exceptions.ProductNotFoundException;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.repositories.AppUserRepository;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.repositories.CartRepository;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.repositories.ProductRepository;
-
-import org.springframework.security.core.Authentication;
+import jakarta.persistence.EntityNotFoundException;
+import org.apache.coyote.Response;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -46,7 +45,7 @@ public class CartServiceImpl implements CartService {
     public void add(Long id, int quantity) {
 
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        AppUser user = appUserRepository.findByEmail(username)
+        AppUser user = appUserRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
 
         Product product = productRepository
@@ -129,10 +128,9 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public CartDto getCartForCurrentUser() {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        AppUser user = appUserRepository.findByEmail(email)
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        AppUser user = appUserRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
-
 
         List<Cart> cartItems = cartRepository.findByUser(user);
 
@@ -156,116 +154,10 @@ public class CartServiceImpl implements CartService {
     }
 
 
-
-
-
     @Override
     public Optional<AppUser> findByUsername(String username) {
         return Optional.empty();
     }
-
-
-
-    @Override
-    public CartDto addProductToCart(Long productId, int quantity) {
-        if (quantity <= 0) {
-            throw ProblemDetailException.badRequest("La cantidad debe ser mayor que 0");
-        }
-
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        AppUser user = appUserRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
-
-        Product product = productRepository.findById(productId)
-                .orElseThrow(() -> ProblemDetailException.notFound("Producto no encontrado"));
-
-        Cart cartLine = cartRepository.findByUserAndProduct(user, product)
-                .orElse(new Cart(0, product));
-
-        cartLine.setUser(user);
-        cartLine.setProduct(product);
-        cartLine.setQuantity(cartLine.getQuantity() + quantity);
-
-        if (cartLine.getQuantity() > product.getStockQuantity()) {
-            throw new NotEnoughQuantityException("No hay suficientes unidades. En total solo se pueden pedir: " + product.getStockQuantity());
-        }
-
-        cartLine.setModified(LocalDateTime.now());
-        cartRepository.save(cartLine);
-
-        return getCartForCurrentUser();
-    }
-
-    @Override
-    public CartDto addOneProductToCart(Long productId) {
-
-
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        AppUser user = appUserRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
-
-        Product product = productRepository.findById(productId)
-                .orElseThrow(() -> ProblemDetailException.notFound("Producto no encontrado"));
-
-        Cart cartLine = cartRepository.findByUserAndProduct(user, product)
-                .orElse(new Cart(0, product));
-
-        cartLine.setUser(user);
-        cartLine.setProduct(product);
-        cartLine.setQuantity(cartLine.getQuantity() + 1);
-
-        if (cartLine.getQuantity() > product.getStockQuantity()) {
-            throw new NotEnoughQuantityException("No hay suficientes unidades. En total solo se pueden pedir: " + product.getStockQuantity());
-        }
-
-        cartLine.setModified(LocalDateTime.now());
-        cartRepository.save(cartLine);
-
-        return getCartForCurrentUser();
-    }
-
-    @Transactional
-    @Override
-    public CartDto removeProductFromCart(Long productId) {
-        try {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            if (authentication == null || !authentication.isAuthenticated()) {
-                throw ProblemDetailException.unauthorized("Usuario no autenticado");
-            }
-
-            String username = authentication.getName();
-            AppUser user = appUserRepository.findByEmail(username)
-                    .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
-
-            Product product = productRepository.findById(productId)
-                    .orElseThrow(() -> ProblemDetailException.notFound("Producto no encontrado"));
-
-            cartRepository.deleteByUserAndProduct(user, product);
-
-            return getCartForCurrentUser();
-
-        } catch (Exception e) {
-
-            throw ProblemDetailException.internalServerError("Error eliminando producto del carrito: " + e.getMessage());
-        }
-    }
-
-    @Override
-    public CartDto clearCart() {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        AppUser user = appUserRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
-
-        List<Cart> cartItems = cartRepository.findByUser(user);
-        cartRepository.deleteAll(cartItems);
-
-        return getCartForCurrentUser();
-    }
-
-
-
-
-
 
 
 }

@@ -17,14 +17,8 @@ public interface CartService {
     void deleteById(Long id);
 
     void deleteAll();
-    CartDto addProductToCart(Long productId, int count);
-    CartDto addOneProductToCart(Long productId);
 
     CartDto getCartForCurrentUser();
-    CartDto removeProductFromCart(Long productId);
-    CartDto clearCart();
-
-
     Optional<AppUser> findByUsername(String username);
 }
 

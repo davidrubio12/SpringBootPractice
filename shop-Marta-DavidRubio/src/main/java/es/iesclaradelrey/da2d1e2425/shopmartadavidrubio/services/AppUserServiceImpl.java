@@ -41,7 +41,7 @@ public class AppUserServiceImpl implements AppUserService{
 
     @Override
     public Optional<AppUser> findByEmail(String email) {
-        return appUserRepository.findByEmail(email);
+        return appUserRepository.findByEmail((email));
     }
 
     @Override

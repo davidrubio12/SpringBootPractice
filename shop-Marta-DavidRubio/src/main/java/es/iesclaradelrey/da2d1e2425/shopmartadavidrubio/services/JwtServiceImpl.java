@@ -57,8 +57,8 @@ public class JwtServiceImpl implements JwtService {
     @Override
     public void validateAccessToken(String token) {
         Claims claims= getClaimsFromToken(token);
-        //JwtTokenType type = claims.get("type",JwtTokenType.class);
-        JwtTokenType type = JwtTokenType.valueOf(claims.get("type").toString());
+        JwtTokenType type = claims.get("type",JwtTokenType.class);
+
         if(type !=JwtTokenType.ACCESS){
             throw new JwtException("Invalid token");
         }
@@ -77,7 +77,7 @@ public class JwtServiceImpl implements JwtService {
             throw new JwtException("Invalid token");
         }
 
-        throw new UnsupportedOperationException("Not supported yet.");
+
     }
 
     @Override
