@@ -77,7 +77,7 @@ public class JwtServiceImpl implements JwtService {
             throw new JwtException("Invalid token");
         }
 
-
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override

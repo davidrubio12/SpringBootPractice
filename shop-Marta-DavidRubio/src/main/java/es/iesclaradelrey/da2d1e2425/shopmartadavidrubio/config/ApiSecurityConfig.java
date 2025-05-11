@@ -16,13 +16,8 @@ public class ApiSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
         //el método "securityMatcher", que hace que la cadena generada solo aplique en cierta ruta.
-
         //path cambiado, añadido /home/app
         http.securityMatcher("/api/app/v1/cart/**");
-
-        http.securityMatcher("/home/app/api/app/**");
-
-
 
         http.csrf(AbstractHttpConfigurer::disable);
 

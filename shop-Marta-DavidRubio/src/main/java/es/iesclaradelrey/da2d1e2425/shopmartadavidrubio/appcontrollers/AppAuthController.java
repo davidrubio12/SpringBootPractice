@@ -9,7 +9,6 @@ import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.services.AuthService;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.services.JwtService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -52,8 +51,6 @@ public class AppAuthController {
 
     @PostMapping("/revoque")
     public ResponseEntity<Void> revoke(){
-
-        SecurityContextHolder.clearContext(); // limpia el contexto de seguridad
-        return ResponseEntity.noContent().build();
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

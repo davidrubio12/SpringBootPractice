@@ -5,9 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
-
 import java.util.ArrayList;
-
 import java.util.List;
 
 @Getter
@@ -43,11 +41,6 @@ public class AppUser {
     @NotNull
     @Column(name = "password", nullable = false, length = 200)
     private String password;
-
-//    @Enumerated(EnumType.STRING)
-//    private Role role;
-//
-//    private boolean enabled = true;
 
     //Relacion
 
