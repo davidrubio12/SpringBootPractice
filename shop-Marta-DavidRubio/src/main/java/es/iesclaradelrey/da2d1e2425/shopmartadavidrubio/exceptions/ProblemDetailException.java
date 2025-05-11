@@ -16,4 +16,12 @@ public class ProblemDetailException extends RuntimeException {
         return new ProblemDetailException(HttpStatus.NOT_FOUND, detail);
     }
 
+    public static ProblemDetailException unauthorized(String detail) {
+        return new ProblemDetailException(HttpStatus.UNAUTHORIZED, detail);
+    }
+
+    public static ProblemDetailException internalServerError(String detail) {
+        return new ProblemDetailException(HttpStatus.INTERNAL_SERVER_ERROR, detail);
+    }
+
 }

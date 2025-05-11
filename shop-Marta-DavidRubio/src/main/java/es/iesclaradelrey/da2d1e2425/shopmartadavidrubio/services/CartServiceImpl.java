@@ -11,16 +11,15 @@ import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.exceptions.ProductNotFou
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.repositories.AppUserRepository;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.repositories.CartRepository;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.repositories.ProductRepository;
-import jakarta.persistence.EntityNotFoundException;
-import org.apache.coyote.Response;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -168,8 +167,8 @@ public class CartServiceImpl implements CartService {
 
 
     @Override
-    public CartDto addProductToCart(Long productId, int count) {
-        if (count <= 0) {
+    public CartDto addProductToCart(Long productId, int quantity) {
+        if (quantity <= 0) {
             throw ProblemDetailException.badRequest("La cantidad debe ser mayor que 0");
         }
 
@@ -185,7 +184,7 @@ public class CartServiceImpl implements CartService {
 
         cartLine.setUser(user);
         cartLine.setProduct(product);
-        cartLine.setQuantity(cartLine.getQuantity() + count);
+        cartLine.setQuantity(cartLine.getQuantity() + quantity);
 
         if (cartLine.getQuantity() > product.getStockQuantity()) {
             throw new NotEnoughQuantityException("No hay suficientes unidades. En total solo se pueden pedir: " + product.getStockQuantity());
@@ -225,20 +224,31 @@ public class CartServiceImpl implements CartService {
         return getCartForCurrentUser();
     }
 
+    @Transactional
     @Override
     public CartDto removeProductFromCart(Long productId) {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        AppUser user = appUserRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication == null || !authentication.isAuthenticated()) {
+                throw ProblemDetailException.unauthorized("Usuario no autenticado");
+            }
 
-        Product product = productRepository.findById(productId)
-                .orElseThrow(() -> ProblemDetailException.notFound("Producto no encontrado"));
+            String username = authentication.getName();
+            AppUser user = appUserRepository.findByEmail(username)
+                    .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
 
-        cartRepository.deleteByUserAndProduct(user, product);
+            Product product = productRepository.findById(productId)
+                    .orElseThrow(() -> ProblemDetailException.notFound("Producto no encontrado"));
 
-        return getCartForCurrentUser();
+            cartRepository.deleteByUserAndProduct(user, product);
+
+            return getCartForCurrentUser();
+
+        } catch (Exception e) {
+
+            throw ProblemDetailException.internalServerError("Error eliminando producto del carrito: " + e.getMessage());
+        }
     }
-
 
     @Override
     public CartDto clearCart() {

@@ -27,7 +27,7 @@ public class AppCartController {
         return cartService.addOneProductToCart(productId);
     }
 
-    @PostMapping("/{productId}/{count}")
+    @PostMapping("/{productId}/{quantity}")
     public CartDto addProductToCart(@PathVariable Long productId, @PathVariable int quantity) {
         return cartService.addProductToCart(productId, quantity);
     }
