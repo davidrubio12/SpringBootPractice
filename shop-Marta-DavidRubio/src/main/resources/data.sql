@@ -40,4 +40,9 @@ VALUES ('John Doe', 'Amazing product, exceeded expectations!', 4.5, 'https://exa
 
 
 INSERT INTO app_users (first_name, last_name, email, password)
-VALUES ('John', 'Doe', 'testuser@example.com', 'testpassword');
+VALUES (
+           'John',
+           'Doe',
+           'testuser@example.com',
+           '$2a$10$7Y9zMBek9z6UiTnQ2l0p2u8rQdIa4fyqqV2cDPbdtQoCTi6XjJ7pW'
+       );

@@ -58,13 +58,55 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
              String authHeader = request.getHeader(AUTH_HEADER);
 
+        //extraer q petición me estan haciendo.
+
+        String pathRequest = request.getRequestURI();
+
+        System.out.println("pathRequest: " + pathRequest);
+
+        //if (request.getServletPath().startsWith("/api/app/v1/auth")) { ??
+        if (pathRequest.contains("/api/app/v1/auth")) {
+
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+
+        if(pathRequest.contains("/api/app/v1")){//mirar nuestra URL.Todo lo que queramos q este protegido
+            // extraer el token
+//            String token = authHeader.substring(7);
+            //Validar el token
+            try{
+
+                String authHeader = request.getHeader("Authorization");
+
+                if(authHeader == null || !authHeader.startsWith("Bearer ")) {
+
+                     throw new JwtException("Authorization header missing or incorrect.");
+                }
+
+
 
              if (authHeader == null || !authHeader.startsWith(BEARER_PREFIX)) {
                  throw new JwtException("Authorization header missing or incorrect.");
              }
 
 
+
              String token = authHeader.substring(7);
+
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            }catch (Exception e){
+                //cambiado, limpiamos context y devolvemos error como ProblemDetail
+                SecurityContextHolder.clearContext();
+                String errorMessage = "Error validating access token: " + e.getMessage();
+                ProblemDetailsUtils.writeUnauthorized(response, request, errorMessage);
+                return;
+            }
+
 
 
              jwtService.validateAccessToken(token);
