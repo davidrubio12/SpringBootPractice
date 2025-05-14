@@ -7,7 +7,7 @@ Array.from(document.getElementsByClassName("add-to-cart"))
         console.log(button);
         button.addEventListener("click", () => {
             const units = 1;
-            fetch(appPath+"api/cart", {
+            fetch("/home/app/cart/add_cart/", {
                 method: "POST",
                 body: JSON.stringify({
                     //el productoId, y la cantidad del producto
@@ -15,7 +15,9 @@ Array.from(document.getElementsByClassName("add-to-cart"))
                     quantity : 1
                 }),
                 headers: {
-                    "Content-type": "application/json; charset=UTF-8"
+                    "Content-type": "application/json; charset=UTF-8",
+                    "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
+
                 }
             })
                 .then(response => {

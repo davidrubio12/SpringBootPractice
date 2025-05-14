@@ -30,11 +30,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private static final String PROTECTED_PATH = "/api/app/v1/cart/**";
     private static final String PROTECTED_PATH_PRODUCTS = "/api/app/v1/product/**";
+    private static final String PROTECTED_PATH_CATEGORIES = "/api/app/v1/categories";
 
 
     private static final AntPathRequestMatcher protectedPathMatcher = new AntPathRequestMatcher(PROTECTED_PATH);
     private static final AntPathRequestMatcher protectedPathMatcherProduct = new AntPathRequestMatcher(PROTECTED_PATH_PRODUCTS);
-
+    private static final AntPathRequestMatcher protectedPathMatcherCategory = new AntPathRequestMatcher(PROTECTED_PATH_CATEGORIES);
 
 
     // Añadimos varias rutas protegidas
@@ -53,7 +54,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
 
-     if(protectedPathMatcher.matches(request) || protectedPathMatcherProduct.matches(request)) {
+     if(protectedPathMatcher.matches(request) || protectedPathMatcherProduct.matches(request) || protectedPathMatcherCategory.matches(request)) {
          try {
 
              String authHeader = request.getHeader(AUTH_HEADER);

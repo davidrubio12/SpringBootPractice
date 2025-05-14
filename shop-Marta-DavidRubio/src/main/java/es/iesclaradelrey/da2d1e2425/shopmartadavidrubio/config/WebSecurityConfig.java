@@ -17,6 +17,9 @@ public class WebSecurityConfig {
 //        http.csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.ignoringRequestMatchers("/add-to-cart"));
 //        // De momento, permitir el acceso a cualquier parte de la aplicación.
 //        http.authorizeHttpRequests(auth -> auth
+//                .requestMatchers("/").permitAll()
+//                .requestMatchers("/images/**").permitAll()
+//                .requestMatchers("/styles/**").permitAll()
 //                // .anyRequest().permitAll()); // permitir el acceso a cualquier parte de la aplicación.
 //                .requestMatchers("/login-personalizado").permitAll()
 //                .anyRequest().authenticated());
