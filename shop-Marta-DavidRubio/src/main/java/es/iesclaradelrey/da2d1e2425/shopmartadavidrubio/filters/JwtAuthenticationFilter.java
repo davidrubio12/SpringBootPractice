@@ -29,7 +29,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private static final String BEARER_PREFIX = "Bearer ";
 
     private static final String PROTECTED_PATH = "/api/app/v1/cart/**";
-    private static final String PROTECTED_PATH_PRODUCTS = "/api/app/v1/product/**";
+    private static final String PROTECTED_PATH_PRODUCTS = "/api/app/v1/products/**";
     private static final String PROTECTED_PATH_CATEGORIES = "/api/app/v1/categories";
 
 
