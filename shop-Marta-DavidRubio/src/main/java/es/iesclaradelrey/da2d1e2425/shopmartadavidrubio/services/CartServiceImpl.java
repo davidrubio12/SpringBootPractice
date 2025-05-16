@@ -5,13 +5,10 @@ import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.dto.api.CartItemDto;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.entities.AppUser;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.entities.Cart;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.entities.Product;
-import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.exceptions.NotEnoughQuantityException;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.exceptions.ProblemDetailException;
-import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.exceptions.ProductNotFoundException;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.repositories.AppUserRepository;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.repositories.CartRepository;
 import es.iesclaradelrey.da2d1e2425.shopmartadavidrubio.repositories.ProductRepository;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -44,66 +41,31 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void add(Long id, int quantity) {
-
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         AppUser user = appUserRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
 
-        Product product = productRepository
-                .findById(id)
-                .orElseThrow(() -> new ProductNotFoundException("No existe el producto con código: "+id));
-        Cart cart= cartRepository
-                .findByProductId(id)
-                .orElse(new Cart(0, product));
-        //Asignar el usuario si es nuevo
-        cart.setUser(user);
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> ProblemDetailException.notFound(
+                        "No existe el producto con código: " + id,
+                        "https://api.magicemporium.com/errors/product-not-found"
+                ));
 
+        Cart cart = cartRepository.findByProductId(id).orElse(new Cart(0, product));
+        cart.setUser(user);
         cart.setQuantity(cart.getQuantity() + quantity);
 
-
-
-        if(cart.getQuantity() > product.getStockQuantity()) {
-
-            throw new NotEnoughQuantityException("No hay suficientes unidades. En total solo se pueden pedir: " + product.getStockQuantity()+ " unidades");//hacer nuestra excepción
+        if (cart.getQuantity() > product.getStockQuantity()) {
+            throw ProblemDetailException.badRequest(
+                    "No hay suficientes unidades. En total solo se pueden pedir: " + product.getStockQuantity(),
+                    "https://api.magicemporium.com/errors/not-enough-stock"
+            );
         }
-    //fecha actualizar
+
         cart.setModified(LocalDateTime.now());
-
         cartRepository.save(cart);
-
-//        Optional<Cart> cart = cartRepository.findByProductId(id);
-//
-//        if (cart.get().getProduct().getId() == null) {//si el producto NO exite, 404
-//            ResponseEntity.status(HttpStatus.NOT_FOUND).body("No existe el producto con código: " + id);
-//        } else {//si existe
-//            if (quantity > cart.get().getProduct().getStockQuantity()) {//y lo añadido es mayor al stock, 409
-//                ResponseEntity.status(HttpStatus.CONFLICT).body("No hay suficientes unidades. Solo hay " + cart.get().getProduct().getStockQuantity() + " unidades en stock.");
-//            } else {//si lo añadido es menor o igual al stock
-//
-//                if (cart.isPresent()) {//si existe en el carro
-//                    System.out.println("Añadiendo unidad a producto existente " + id);
-//                    Cart car = cart.get();
-//                    car.setQuantity(car.getQuantity() + 1);//¿podemos poner quantity?
-//                    car.setModified(LocalDateTime.now());
-//                    cartRepository.save(car);
-//
-//                } else { //si no existe en el carro y hay suficiente stok, añade nuevo producto
-//                    System.out.println("Añadiendo nuevo producto " + id);
-//                    Product product = productRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("No se encontro el producto " + id));
-//                    Cart newCart = new Cart();
-//                    newCart.setProduct(product);
-//                    newCart.setQuantity(1);
-//                    newCart.setModified(LocalDateTime.now());
-//                    newCart.setDate(LocalDateTime.now());
-//                    newCart.setProductName(product.getName());
-//                    newCart.setPrice(product.getPrice());
-//                    newCart.setImageUrl(product.getImageUrl());
-//                    cartRepository.save(newCart);
-//                }
-//
-//            }
-//        }
     }
+
 
     @Override
     public Double countCart() {
@@ -169,7 +131,10 @@ public class CartServiceImpl implements CartService {
     @Override
     public CartDto addProductToCart(Long productId, int quantity) {
         if (quantity <= 0) {
-            throw ProblemDetailException.badRequest("La cantidad debe ser mayor que 0");
+            throw ProblemDetailException.badRequest(
+                    "La cantidad debe ser mayor que 0.",
+                    "https://api.magicemporium.com/errors/invalid-quantity"
+            );
         }
 
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -177,7 +142,10 @@ public class CartServiceImpl implements CartService {
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
 
         Product product = productRepository.findById(productId)
-                .orElseThrow(() -> ProblemDetailException.notFound("Producto no encontrado"));
+                .orElseThrow(() -> ProblemDetailException.notFound(
+                        "Producto no encontrado",
+                        "https://api.magicemporium.com/errors/product-not-found"
+                ));
 
         Cart cartLine = cartRepository.findByUserAndProduct(user, product)
                 .orElse(new Cart(0, product));
@@ -187,7 +155,10 @@ public class CartServiceImpl implements CartService {
         cartLine.setQuantity(cartLine.getQuantity() + quantity);
 
         if (cartLine.getQuantity() > product.getStockQuantity()) {
-            throw new NotEnoughQuantityException("No hay suficientes unidades. En total solo se pueden pedir: " + product.getStockQuantity());
+            throw ProblemDetailException.badRequest(
+                    "No hay suficientes unidades. Solo hay " + product.getStockQuantity(),
+                    "https://api.magicemporium.com/errors/not-enough-stock"
+            );
         }
 
         cartLine.setModified(LocalDateTime.now());
@@ -195,6 +166,7 @@ public class CartServiceImpl implements CartService {
 
         return getCartForCurrentUser();
     }
+
 
     @Override
     public CartDto addOneProductToCart(Long productId) {
@@ -205,7 +177,10 @@ public class CartServiceImpl implements CartService {
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
 
         Product product = productRepository.findById(productId)
-                .orElseThrow(() -> ProblemDetailException.notFound("Producto no encontrado"));
+                .orElseThrow(() -> ProblemDetailException.notFound(
+                        "Producto no encontrado",
+                        "https://api.magicemporium.com/errors/product-not-found"
+                ));
 
         Cart cartLine = cartRepository.findByUserAndProduct(user, product)
                 .orElse(new Cart(0, product));
@@ -215,7 +190,10 @@ public class CartServiceImpl implements CartService {
         cartLine.setQuantity(cartLine.getQuantity() + 1);
 
         if (cartLine.getQuantity() > product.getStockQuantity()) {
-            throw new NotEnoughQuantityException("No hay suficientes unidades. En total solo se pueden pedir: " + product.getStockQuantity());
+            throw ProblemDetailException.badRequest(
+                    "No hay suficientes unidades. Solo hay " + product.getStockQuantity(),
+                    "https://api.magicemporium.com/errors/not-enough-stock"
+            );
         }
 
         cartLine.setModified(LocalDateTime.now());
@@ -230,7 +208,10 @@ public class CartServiceImpl implements CartService {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (authentication == null || !authentication.isAuthenticated()) {
-                throw ProblemDetailException.unauthorized("Usuario no autenticado");
+                throw ProblemDetailException.unauthorized(
+                        "Usuario no autenticado",
+                        "https://api.magicemporium.com/errors/unauthorized"
+                );
             }
 
             String username = authentication.getName();
@@ -238,7 +219,10 @@ public class CartServiceImpl implements CartService {
                     .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
 
             Product product = productRepository.findById(productId)
-                    .orElseThrow(() -> ProblemDetailException.notFound("Producto no encontrado"));
+                    .orElseThrow(() -> ProblemDetailException.notFound(
+                            "Producto no encontrado",
+                            "https://api.magicemporium.com/errors/product-not-found"
+                    ));
 
             cartRepository.deleteByUserAndProduct(user, product);
 
@@ -246,7 +230,10 @@ public class CartServiceImpl implements CartService {
 
         } catch (Exception e) {
 
-            throw ProblemDetailException.internalServerError("Error eliminando producto del carrito: " + e.getMessage());
+            throw ProblemDetailException.internalServerError(
+                    "Error eliminando producto del carrito: " + e.getMessage(),
+                    "https://api.magicemporium.com/errors/internal-server-error"
+            );
         }
     }
 
