@@ -11,25 +11,25 @@ import org.springframework.security.web.SecurityFilterChain;
 @Order(999)
 public class WebSecurityConfig {
 
-//    @Bean
-//    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http, AuthService authService) throws Exception {
-//        //TODO para poder añadirlo al carro, evita añadir cookies de csrf
-//        http.csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.ignoringRequestMatchers("/add-to-cart"));
-//        // De momento, permitir el acceso a cualquier parte de la aplicación.
-//        http.authorizeHttpRequests(auth -> auth
-//                .requestMatchers("/").permitAll()
-//                .requestMatchers("/images/**").permitAll()
-//                .requestMatchers("/styles/**").permitAll()
-//                // .anyRequest().permitAll()); // permitir el acceso a cualquier parte de la aplicación.
-//                .requestMatchers("/login-personalizado").permitAll()
-//                .anyRequest().authenticated());
-//
-//        http.formLogin(login->
-//                login
-//                    .loginPage("/login-personalizado")
-//        );
-//
-//
-//        return http.build();
-//    }
+    @Bean
+    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http, AuthService authService) throws Exception {
+        //TODO para poder añadirlo al carro, evita añadir cookies de csrf
+        http.csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.ignoringRequestMatchers("/add-to-cart"));
+        // De momento, permitir el acceso a cualquier parte de la aplicación.
+        http.authorizeHttpRequests(auth -> auth
+                .requestMatchers("/").permitAll()
+                .requestMatchers("/images/**").permitAll()
+                .requestMatchers("/styles/**").permitAll()
+                // .anyRequest().permitAll()); // permitir el acceso a cualquier parte de la aplicación.
+                .requestMatchers("/login-personalizado").permitAll()
+                .anyRequest().authenticated());
+
+        http.formLogin(login->
+                login
+                    .loginPage("/login-personalizado")
+        );
+
+
+        return http.build();
+    }
 }

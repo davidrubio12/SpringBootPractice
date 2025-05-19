@@ -40,7 +40,7 @@
 -- #
 -- #
 INSERT INTO app_users (first_name, last_name, email, password)
-VALUES ('John', 'Doe', 'testuser@example.com', 'testpassword');
+VALUES ('Saul', 'Hernandez', 'saul@example.com', 'saul');
 
 
 # UPDATE product
